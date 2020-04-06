@@ -1,5 +1,11 @@
+/**
+ * circles module
+ */
 
-exports.HELLO_MSG = "Hello from circles.js!";
+const circleArea = (r) => r ** 2 * Math.PI;
+const circleCircumference = r => 2 * Math.PI * r;
 
-exports.circleArea = (r) => r ** 2 * Math.PI;
-exports.circleCircumference = r => 2 * Math.PI * r;
+module.exports = {
+	circleArea,
+	circleCircumference,
+};
