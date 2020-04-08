@@ -5,6 +5,9 @@
 const express = require('express');
 const app = express();
 
+// serve static files from `/public` folder
+app.use(express.static('public'));
+
 // respond to GET-requests to `/`
 app.get('/', (req, res) => {
 	res.send('Hello from the root.');
