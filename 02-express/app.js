@@ -21,6 +21,10 @@ app.get('/api/nom', (req, res) => {
 	res.send({ msg: 'Cakes are om-nom-nom.' });
 });
 
+// omg, even route parameters! wh0000t
+app.get('/users/:userId', (req, res) => {
+	res.send(`Would have shown user-profile for user with ID: ${req.params.userId}`);
+});
 
 // listen on port 3000
 app.listen(3000, () => {
