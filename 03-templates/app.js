@@ -6,6 +6,10 @@ const express = require('express');
 const app = express();
 const moment = require('moment');
 
+// set ejs as our template engine
+app.set('view engine', 'ejs');
+app.set('views', './views');
+
 // register a middleware that logs all requests to the console
 app.use((req, res, next) => {
 	const now = moment().format('YYYY-MM-DD HH:mm:ss');
@@ -35,7 +39,17 @@ app.get('/api/nom', (req, res) => {
 
 // omg, even route parameters! wh0000t
 app.get('/users/:userId', (req, res) => {
-	res.send(`Would have shown user-profile for user with ID: ${req.params.userId}`);
+	// create dummy user object
+	const view_data = {
+		id: req.params.userId,
+		name: 'Anonymous Haxx0r',
+		email: 'haxx0r@nsa.gov',
+		phone: '1-555-HACKME',
+		hobbies: ['hacking', 'sleeping', 'hacking some more'],
+	}
+
+	// pass user info to view
+	res.render('user_profile.ejs', view_data);
 });
 
 // serve static files from `/public` folder
