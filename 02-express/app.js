@@ -6,7 +6,14 @@ const express = require('express');
 const app = express();
 
 // serve static files from `/public` folder
+// using the express static middleware
 app.use(express.static('public'));
+
+// register a middleware that logs all requests to the console
+app.use((req, res, next) => {
+	console.log(`Incoming ${req.method} request for: ${req.url}`);
+	next();
+});
 
 // respond to GET-requests to `/`
 app.get('/', (req, res) => {
