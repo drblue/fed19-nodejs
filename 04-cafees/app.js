@@ -16,6 +16,16 @@ app.use((req, res, next) => {
 	next();
 });
 
+// show all cafées
+app.get('/cafees', (req, res) => {
+	// connect to database
+
+	// ask database nicely for a list of all cafés
+
+	// once we get the list, send it to the view
+	res.render('cafees/index');
+});
+
 // serve static files from `/public` folder
 // using the express static middleware
 app.use(express.static('public'));
