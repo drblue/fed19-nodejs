@@ -9,20 +9,20 @@
 </head>
 
 <body>
-	<h1>User Profile</h1>
+	<h1><%= pageTitle %></h1>
 
 	<div>
-		ID: <%= id %><br>
-		Name: <%= name %><br>
-		Email: <%= email %><br>
-		Phone: <%= phone %>
+		ID: <%= user.id %><br>
+		Name: <%= user.name %><br>
+		Email: <%= user.email %><br>
+		Phone: <%= user.phone %>
 	</div>
 
 	<div>
 		Hobbies:
 		<ul>
 			<%
-				hobbies.forEach(hobby => {
+				user.hobbies.forEach(hobby => {
 					%>
 						<li><%= hobby %></li>
 					<%
@@ -31,7 +31,7 @@
 		</ul>
 	</div>
 
-	<% if (id == 1337) { %>
+	<% if (user.id == 1337) { %>
 		<img src="/elite.gif">
 	<% } %>
 </body>

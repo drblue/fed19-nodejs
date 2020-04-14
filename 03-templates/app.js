@@ -41,11 +41,14 @@ app.get('/api/nom', (req, res) => {
 app.get('/users/:userId', (req, res) => {
 	// create dummy user object
 	const view_data = {
-		id: req.params.userId,
-		name: 'Anonymous Haxx0r',
-		email: 'haxx0r@nsa.gov',
-		phone: '1-555-HACKME',
-		hobbies: ['hacking', 'sleeping', 'hacking some more'],
+		user: {
+			id: req.params.userId,
+			name: 'Anonymous Haxx0r',
+			email: 'haxx0r@nsa.gov',
+			phone: '1-555-HACKME',
+			hobbies: ['hacking', 'sleeping', 'hacking some more'],
+		},
+		pageTitle: `User Profile for Anonymous Haxx0r`,
 	}
 
 	// pass user info to view
