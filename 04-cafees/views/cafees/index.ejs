@@ -2,4 +2,10 @@
 
 <h1>Alla caféer</h1>
 
+<ul>
+	<% cafees.forEach(cafe => { %>
+		<li><%= cafe.name %></li>
+	<% }); %>
+</ul>
+
 <%- include('../layout/footer'); -%>
