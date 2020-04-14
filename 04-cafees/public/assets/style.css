@@ -1,0 +1,13 @@
+html,
+body {
+	background-color: #01aa7a;
+	color: #000;
+}
+
+a, a:active, a:focus, a:hover, a:link {
+	color: #fff;
+}
+
+a:active, a:focus, a:hover {
+	text-decoration: underline;
+}
