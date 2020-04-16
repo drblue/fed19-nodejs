@@ -29,9 +29,9 @@ app.get('/cafees/:cafeId', (req, res) => {
 	db.connect();
 
 	// ask database nicely for the specific café that was requested
-	const sqlQuery = 'SELECT * FROM cafees WHERE id = ' + req.params.cafeId;
+	const sqlQuery = 'SELECT * FROM cafees WHERE id = ?';
 
-	db.query(sqlQuery, (error, results, fields) => {
+	db.query(sqlQuery, [req.params.cafeId], (error, results, fields) => {
 		// this callback will be executed once the query returns a result
 		if (error) {
 			// ABORT, ABORT! EJECT!
