@@ -2,6 +2,7 @@
  * Fika-sugen?
  */
 
+require('dotenv').config();
 const express = require('express');
 const app = express();
 const moment = require('moment');
@@ -20,10 +21,11 @@ app.use((req, res, next) => {
 const getDbConnection = () => {
 	// connect to database
 	const db = mysql.createConnection({
-		host: 'localhost',
-		user: 'www', // AMPPS mySQL default user: root
-		password: 'apa', // AMPPS mySQL default password: mysql
-		database: 'fika',
+		host: process.env.DB_HOST,
+		port: process.env.DB_PORT,
+		user: process.env.DB_USER,
+		password: process.env.DB_PASSWORD,
+		database: process.env.DB_NAME,
 	});
 	db.connect();
 	return db;
