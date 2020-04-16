@@ -3,8 +3,8 @@
 <h1>Alla caféer</h1>
 
 <ul>
-	<% cafees.forEach(cafe => { %>
-		<li><%= cafe.name %> (<%= cafe.id %>)</li>
+	<% cafees.forEach(cafee => { %>
+		<li><a href="/cafees/<%= cafee.id %>"><%= cafee.name %></a></li>
 	<% }); %>
 </ul>
 

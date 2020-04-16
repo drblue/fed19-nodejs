@@ -1,12 +1,14 @@
 <%- include('../layout/header'); -%>
 
-<h1>HERE BE NAME OF CAFÉ</h1>
+<% if (cafee) { %>
+	<h1><%= cafee.name %></h1>
+	<h2><%= cafee.address %>, <%= cafee.city %></h2>
+<% } else { %>
+	<p>Ledsen, det där caféet kunde inte hittas.</p>
+<% } %>
 
-<ul>
-	<li>Address: HERE BE ADDRESS</li>
-	<li>City: HERE BE CITY</li>
-</ul>
-
-<a href="/cafees/">Back to list of cafées</a>
+<div class="mt-4">
+	<a href="/cafees/">Tillbaka till caféerna</a>
+</div>
 
 <%- include('../layout/footer'); -%>

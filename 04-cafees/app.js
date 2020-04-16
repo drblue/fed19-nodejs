@@ -17,6 +17,46 @@ app.use((req, res, next) => {
 	next();
 });
 
+// show specific café
+app.get('/cafees/:cafeId', (req, res) => {
+	// connect to database
+	const db = mysql.createConnection({
+		host: 'localhost',
+		user: 'www', // AMPPS mySQL default user: root
+		password: 'apa', // AMPPS mySQL default password: mysql
+		database: 'fika',
+	});
+	db.connect();
+
+	// ask database nicely for the specific café that was requested
+	const sqlQuery = 'SELECT * FROM cafees WHERE id = ' + req.params.cafeId;
+
+	db.query(sqlQuery, (error, results, fields) => {
+		// this callback will be executed once the query returns a result
+		if (error) {
+			// ABORT, ABORT! EJECT!
+			res.status(500).send('Sorry, database made a poo-poo.');
+			throw error;
+		}
+
+		console.log(results);
+
+		// let cafee = false;
+		// if (results.length === 1) {
+		// 	cafee = results[0];
+		// }
+
+		const cafee = (results.length === 1)
+			? results[0]
+			: false;
+
+		// once we get the café, send it to the view
+		res.render('cafees/show', {
+			cafee,
+		});
+	});
+});
+
 // show all cafées
 app.get('/cafees', (req, res) => {
 	// connect to database
@@ -37,7 +77,7 @@ app.get('/cafees', (req, res) => {
 			throw error;
 		}
 
-		console.log(results);
+		// console.log(results);
 
 		// once we get the list, send it to the view
 		res.render('cafees/index', {
