@@ -31,6 +31,10 @@ const getDbConnection = () => {
 	return db;
 }
 
+app.get('/cafees/create', (req, res) => {
+	res.render('cafees/create');
+});
+
 // show specific café
 app.get('/cafees/:cafeId', (req, res) => {
 	// create sql query

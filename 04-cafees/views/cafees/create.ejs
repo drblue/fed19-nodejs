@@ -1,0 +1,28 @@
+<%- include('../layout/header'); -%>
+
+<h1>Skapa nytt café</h1>
+
+<form action="/create" method="post">
+	<div class="form-group">
+		<label for="name">Namn</label>
+		<input type="text" class="form-control" id="name" name="name">
+	</div>
+
+	<div class="form-group">
+		<label for="address">Adress</label>
+		<input type="text" class="form-control" id="address" name="address">
+	</div>
+
+	<div class="form-group">
+		<label for="city">Ort</label>
+		<input type="text" class="form-control" id="city" name="city">
+	</div>
+
+	<button type="submit" class="btn btn-primary">Skapa café</button>
+</form>
+
+<div class="mt-4">
+	<a href="/cafees/">Tillbaka till caféerna</a>
+</div>
+
+<%- include('../layout/footer'); -%>
