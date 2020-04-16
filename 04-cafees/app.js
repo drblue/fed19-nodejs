@@ -17,8 +17,7 @@ app.use((req, res, next) => {
 	next();
 });
 
-// show specific café
-app.get('/cafees/:cafeId', (req, res) => {
+const getDbConnection = () => {
 	// connect to database
 	const db = mysql.createConnection({
 		host: 'localhost',
@@ -27,24 +26,22 @@ app.get('/cafees/:cafeId', (req, res) => {
 		database: 'fika',
 	});
 	db.connect();
+	return db;
+}
 
-	// ask database nicely for the specific café that was requested
+// show specific café
+app.get('/cafees/:cafeId', (req, res) => {
+	// create sql query
 	const sqlQuery = 'SELECT * FROM cafees WHERE id = ?';
 
-	db.query(sqlQuery, [req.params.cafeId], (error, results, fields) => {
+	// ask database nicely for the specific café that was requested
+	getDbConnection().query(sqlQuery, [req.params.cafeId], (error, results, fields) => {
 		// this callback will be executed once the query returns a result
 		if (error) {
 			// ABORT, ABORT! EJECT!
 			res.status(500).send('Sorry, database made a poo-poo.');
 			throw error;
 		}
-
-		console.log(results);
-
-		// let cafee = false;
-		// if (results.length === 1) {
-		// 	cafee = results[0];
-		// }
 
 		const cafee = (results.length === 1)
 			? results[0]
@@ -59,25 +56,14 @@ app.get('/cafees/:cafeId', (req, res) => {
 
 // show all cafées
 app.get('/cafees', (req, res) => {
-	// connect to database
-	const db = mysql.createConnection({
-		host: 'localhost',
-		user: 'www', // AMPPS mySQL default user: root
-		password: 'apa', // AMPPS mySQL default password: mysql
-		database: 'fika',
-	});
-	db.connect();
-
 	// ask database nicely for a list of all cafés
-	db.query('SELECT * FROM cafees', (error, results, fields) => {
+	getDbConnection().query('SELECT * FROM cafees', (error, results, fields) => {
 		// this callback will be executed once the query returns a result
 		if (error) {
 			// ABORT, ABORT! EJECT!
 			res.status(500).send('Sorry, database made a poo-poo.');
 			throw error;
 		}
-
-		// console.log(results);
 
 		// once we get the list, send it to the view
 		res.render('cafees/index', {
