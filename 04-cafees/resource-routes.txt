@@ -1,0 +1,9 @@
+Verb      URI                     Action
+--------- ----------------------- -------
+GET       /cafees                 index
+GET       /cafees/create          create
+POST      /cafees                 store
+GET       /cafees/:cafeId         show
+GET       /cafees/:cafeId/edit    edit
+POST      /cafees/:cafeId         update
+DELETE    /cafees/:cafeId         destroy
