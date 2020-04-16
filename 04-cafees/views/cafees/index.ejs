@@ -2,11 +2,15 @@
 
 <h1>Alla caféer</h1>
 
-<ul>
-	<% cafees.forEach(cafee => { %>
-		<li><a href="/cafees/<%= cafee.id %>"><%= cafee.name %></a></li>
-	<% }); %>
-</ul>
+<% if (cafees.length > 0) { %>
+	<ul>
+		<% cafees.forEach(cafee => { %>
+			<li><a href="/cafees/<%= cafee.id %>"><%= cafee.name %></a></li>
+		<% }); %>
+	</ul>
+<% } else { %>
+	<p>Ledsen, det finns inga caféer för tillfället. Varför inte skapa den första?</p>
+<% } %>
 
 <div class="mt-4">
 	<a href="/cafees/create" class="btn btn-primary">Skapa nytt café</a>
