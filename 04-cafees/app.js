@@ -43,7 +43,6 @@ app.get('/cafees/create', (req, res) => {
 
 app.post('/cafees', (req, res) => {
 	console.log("Would like to create a new cafee...");
-	console.log("Req body:", req.body);
 
 	const cafee = {
 		name: req.body.name,
@@ -52,10 +51,10 @@ app.post('/cafees', (req, res) => {
 	}
 
 	// create sql insert query
-	const sqlQuery = 'INSERT INTO cafees (name, address, city) VALUES (?, ?, ?)';
+	const sqlQuery = 'INSERT INTO cafees SET ?';
 
 	// tell database to insert a new café
-	getDbConnection().query(sqlQuery, [cafee.name, cafee.address, cafee.city], (error, results, fields) => {
+	getDbConnection().query(sqlQuery, cafee, (error, results, fields) => {
 		// this callback will be executed once the query returns a result
 		if (error) {
 			res.status(500).send('Sorry, could not create a new café.');
