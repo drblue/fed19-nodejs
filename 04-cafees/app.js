@@ -103,7 +103,7 @@ app.get('/cafees/:cafeId', (req, res) => {
 app.get('/cafees/:cafeId/edit', (req, res) => {
 	const cafeId = req.params.cafeId;
 
-	knex.select().from('cafees').where('id', cafeId)
+	getDbConnection().select().from('cafees').where('id', cafeId)
 	.then(rows => {
 		const cafee = (rows.length === 1)
 			? rows[0]
@@ -132,19 +132,14 @@ app.post('/cafees/:cafeId', (req, res) => {
 		city: req.body.city,
 	}
 
-	// create sql update query
-	const sqlQuery = 'UPDATE cafees SET ? WHERE id = ?';
-
-	// tell database to insert a new café
-	getDbConnection().query(sqlQuery, [cafee, cafeId], (error, results, fields) => {
-		// this callback will be executed once the query returns a result
-		if (error) {
-			res.status(500).send(`Sorry, could not update café with ID ${cafeId}.`);
-			throw error;
-		}
-
+	getDbConnection().table('cafees').update(cafee).where('id', cafeId)
+	.then(results => {
 		console.log(`Updated café with ID ${cafeId}`);
 		res.redirect('/cafees/' + cafeId);
+	})
+	.catch(error => {
+		res.status(500).send(`Sorry, could not update café with ID ${cafeId}.`);
+		throw error;
 	});
 });
 
