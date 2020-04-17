@@ -1,9 +1,5 @@
 <%- include('../layout/header'); -%>
 
-<div class="mb-3">
-	<a href="/cafees/<%= cafee.id %>/edit" class="btn btn-primary">Redigera café</a>
-</div>
-
 <% if (cafee) { %>
 	<h1><%= cafee.name %></h1>
 	<h2><%= cafee.address %>, <%= cafee.city %></h2>
@@ -11,8 +7,9 @@
 	<p>Ledsen, det där caféet kunde inte hittas.</p>
 <% } %>
 
-<div class="mt-4">
-	<a href="/cafees/">Tillbaka till caféerna</a>
+<div class="mt-4 d-flex justify-content-between">
+	<a href="/cafees/" class="btn btn-secondary">Tillbaka till caféerna</a>
+	<a href="/cafees/<%= cafee.id %>/edit" class="btn btn-warning">Redigera café</a>
 </div>
 
 <%- include('../layout/footer'); -%>
