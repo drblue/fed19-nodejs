@@ -89,26 +89,22 @@ app.post('/cafees', (req, res) => {
 
 // show specific café
 app.get('/cafees/:cafeId', (req, res) => {
-	// create sql query
-	const sqlQuery = 'SELECT * FROM cafees WHERE id = ?';
+	const cafeId = req.params.cafeId;
 
-	// ask database nicely for the specific café that was requested
-	getDbConnection().query(sqlQuery, [req.params.cafeId], (error, results, fields) => {
-		// this callback will be executed once the query returns a result
-		if (error) {
-			// ABORT, ABORT! EJECT!
-			res.status(500).send('Sorry, database made a poo-poo.');
-			throw error;
-		}
-
-		const cafee = (results.length === 1)
-			? results[0]
+	knex.select().from('cafees').where('id', cafeId)
+	.then(rows => {
+		const cafee = (rows.length === 1)
+			? rows[0]
 			: false;
 
 		// once we get the café, send it to the view
 		res.render('cafees/show', {
 			cafee,
 		});
+	})
+	.catch(error => {
+		res.status(500).send(`Sorry, database threw an error when trying to get cafee with ID ${cafeId}.`);
+		throw error;
 	});
 });
 
