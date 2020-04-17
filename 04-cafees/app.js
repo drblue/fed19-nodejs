@@ -9,6 +9,8 @@ const app = express();
 const bodyParser = require('body-parser');
 const moment = require('moment');
 
+const cafeeDb = require('./db/cafee');
+
 // set ejs as our template engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -39,7 +41,7 @@ const getDbConnection = () => {
 // show all cafées
 app.get('/cafees', (req, res) => {
 	// ask database nicely for a list of all cafés
-	getDbConnection().select().from('cafees').orderBy('name')
+	cafeeDb.getAll()
 	.then(rows => {
 		// once we get the list, send it to the view
 		res.render('cafees/index', {
@@ -82,12 +84,8 @@ app.post('/cafees', (req, res) => {
 app.get('/cafees/:cafeId', (req, res) => {
 	const cafeId = req.params.cafeId;
 
-	getDbConnection().select().from('cafees').where('id', cafeId)
-	.then(rows => {
-		const cafee = (rows.length === 1)
-			? rows[0]
-			: false;
-
+	cafeeDb.get(cafeId)
+	.then(cafee => {
 		// once we get the café, send it to the view
 		res.render('cafees/show', {
 			cafee,
@@ -103,12 +101,8 @@ app.get('/cafees/:cafeId', (req, res) => {
 app.get('/cafees/:cafeId/edit', (req, res) => {
 	const cafeId = req.params.cafeId;
 
-	getDbConnection().select().from('cafees').where('id', cafeId)
-	.then(rows => {
-		const cafee = (rows.length === 1)
-			? rows[0]
-			: false;
-
+	cafeeDb.get(cafeId)
+	.then(cafee => {
 		// once we get the café, send it to the view
 		res.render('cafees/edit', {
 			cafee,
