@@ -8,18 +8,6 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const moment = require('moment');
-const mysql = require('mysql');
-
-const knex = require('knex')({
-	client: 'mysql',
-	connection: {
-		host: process.env.DB_HOST || 'localhost',
-		port: process.env.DB_PORT || 3306,
-		user: process.env.DB_USER || 'fika',
-		password: process.env.DB_PASSWORD || '',
-		database: process.env.DB_NAME || 'fika',
-	},
-}).debug(true);
 
 // set ejs as our template engine
 app.set('view engine', 'ejs');
@@ -36,10 +24,16 @@ app.use((req, res, next) => {
 });
 
 const getDbConnection = () => {
-	// connect to database
-	const db = mysql.createConnection();
-	db.connect();
-	return db;
+	return require('knex')({
+		client: 'mysql',
+		connection: {
+			host: process.env.DB_HOST || 'localhost',
+			port: process.env.DB_PORT || 3306,
+			user: process.env.DB_USER || 'fika',
+			password: process.env.DB_PASSWORD || '',
+			database: process.env.DB_NAME || 'fika',
+		},
+	}).debug(true);
 }
 
 // show all cafées
