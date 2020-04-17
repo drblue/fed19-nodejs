@@ -45,7 +45,7 @@ const getDbConnection = () => {
 // show all cafées
 app.get('/cafees', (req, res) => {
 	// ask database nicely for a list of all cafés
-	knex.select().from('cafees')
+	knex.select().from('cafees').clearWhere()
 	.then(rows => {
 		// once we get the list, send it to the view
 		res.render('cafees/index', {
