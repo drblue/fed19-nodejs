@@ -1,0 +1,32 @@
+<%- include('../layout/header'); -%>
+
+<h1>Redigera café</h1>
+
+<% if (cafee) { %>
+	<form action="/cafees/<%= cafee.id %>" method="post">
+		<div class="form-group">
+			<label for="name">Namn</label>
+			<input type="text" class="form-control" id="name" name="name" value="<%= cafee.name %>" required="required">
+		</div>
+
+		<div class="form-group">
+			<label for="address">Adress</label>
+			<input type="text" class="form-control" id="address" name="address" value="<%= cafee.address %>">
+		</div>
+
+		<div class="form-group">
+			<label for="city">Ort</label>
+			<input type="text" class="form-control" id="city" name="city" value="<%= cafee.city %>" required="required">
+		</div>
+
+		<button type="submit" class="btn btn-primary">Spara</button>
+	</form>
+<% } else { %>
+	<p>Ledsen, det där caféet kunde inte hittas. Försöker du haxxa oss? 🤬</p>
+<% } %>
+
+<div class="mt-4">
+	<a href="/cafees/<%= cafee.id %>">Tillbaka till caféet</a>
+</div>
+
+<%- include('../layout/footer'); -%>

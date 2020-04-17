@@ -109,6 +109,59 @@ app.get('/cafees', (req, res) => {
 	});
 });
 
+// show edit café form
+app.get('/cafees/:cafeId/edit', (req, res) => {
+	// create sql query
+	const sqlQuery = 'SELECT * FROM cafees WHERE id = ?';
+
+	// ask database nicely for the specific café that was requested
+	getDbConnection().query(sqlQuery, [req.params.cafeId], (error, results, fields) => {
+		// this callback will be executed once the query returns a result
+		if (error) {
+			// ABORT, ABORT! EJECT!
+			res.status(500).send('Sorry, database made a poo-poo.');
+			throw error;
+		}
+
+		const cafee = (results.length === 1)
+			? results[0]
+			: false;
+
+		// once we get the café, send it to the view
+		res.render('cafees/edit', {
+			cafee,
+		});
+	});
+});
+
+// update café with form data
+app.post('/cafees/:cafeId', (req, res) => {
+	const cafeId = req.params.cafeId;
+
+	console.log(`Would like to update cafee with ID ${cafeId}...`);
+
+	const cafee = {
+		name: req.body.name || 'Default Café Name',
+		address: req.body.address,
+		city: req.body.city,
+	}
+
+	// create sql update query
+	const sqlQuery = 'UPDATE cafees SET ? WHERE id = ?';
+
+	// tell database to insert a new café
+	getDbConnection().query(sqlQuery, [cafee, cafeId], (error, results, fields) => {
+		// this callback will be executed once the query returns a result
+		if (error) {
+			res.status(500).send(`Sorry, could not update café with ID ${cafeId}.`);
+			throw error;
+		}
+
+		console.log(`Updated café with ID ${cafeId}`);
+		res.redirect('/cafees/' + cafeId);
+	});
+});
+
 // serve static files from `/public` folder
 // using the express static middleware
 app.use(express.static('public'));
