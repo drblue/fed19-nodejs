@@ -67,19 +67,14 @@ app.post('/cafees', (req, res) => {
 		city: req.body.city,
 	}
 
-	// create sql insert query
-	const sqlQuery = 'INSERT INTO cafees SET ?';
-
-	// tell database to insert a new café
-	getDbConnection().query(sqlQuery, cafee, (error, results, fields) => {
-		// this callback will be executed once the query returns a result
-		if (error) {
-			res.status(500).send('Sorry, could not create a new café.');
-			throw error;
-		}
-
-		console.log("Created a new café with ID", results.insertId);
-		res.redirect('/cafees/' + results.insertId);
+	getDbConnection().insert(cafee).into('cafees')
+	.then(results => {
+		console.log("Created a new café with ID", results[0]);
+		res.redirect('/cafees/' + results[0]);
+	})
+	.catch(error => {
+		res.status(500).send('Sorry, could not create a new café.');
+		throw error;
 	});
 });
 
