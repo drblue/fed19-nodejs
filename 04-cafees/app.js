@@ -39,7 +39,7 @@ const getDbConnection = () => {
 // show all cafées
 app.get('/cafees', (req, res) => {
 	// ask database nicely for a list of all cafés
-	getDbConnection().select().from('cafees')
+	getDbConnection().select().from('cafees').orderBy('name')
 	.then(rows => {
 		// once we get the list, send it to the view
 		res.render('cafees/index', {
