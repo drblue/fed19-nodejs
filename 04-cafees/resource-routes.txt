@@ -6,4 +6,4 @@ POST      /cafees                 store
 GET       /cafees/:cafeId         show
 GET       /cafees/:cafeId/edit    edit
 POST      /cafees/:cafeId         update
-DELETE    /cafees/:cafeId         destroy
+POST      /cafees/:cafeId/delete  destroy

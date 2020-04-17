@@ -19,7 +19,7 @@
 			<input type="text" class="form-control" id="city" name="city" value="<%= cafee.city %>" required="required">
 		</div>
 
-		<button type="submit" class="btn btn-primary">Spara</button>
+		<button type="submit" class="btn btn-primary">Spara café</button>
 	</form>
 <% } else { %>
 	<p>Ledsen, det där caféet kunde inte hittas. Försöker du haxxa oss? 🤬</p>
@@ -27,6 +27,9 @@
 
 <div class="mt-4 d-flex justify-content-between">
 	<a href="/cafees/<%= cafee.id %>" class="btn btn-secondary">Tillbaka till caféet</a>
+	<form action="/cafees/<%= cafee.id %>/delete" method="post">
+		<button type="submit" class="btn btn-danger">Radera café</button>
+	</form>
 </div>
 
 <%- include('../layout/footer'); -%>

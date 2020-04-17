@@ -143,6 +143,23 @@ app.post('/cafees/:cafeId', (req, res) => {
 	});
 });
 
+// delete a café from db
+app.post('/cafees/:cafeId/delete', (req, res) => {
+	const cafeId = req.params.cafeId;
+
+	console.log(`Want to delete café with ID ${cafeId}...`);
+
+	getDbConnection().table('cafees').where('id', cafeId).del()
+	.then(() => {
+		console.log(`Deleted café with ID ${cafeId}`);
+		res.redirect('/cafees');
+	})
+	.catch(error => {
+		res.status(500).send(`Sorry, could not delete café with ID ${cafeId}.`);
+		throw error;
+	})
+});
+
 // serve static files from `/public` folder
 // using the express static middleware
 app.use(express.static('public'));
