@@ -39,7 +39,7 @@ const getDbConnection = () => {
 // show all cafées
 app.get('/cafees', (req, res) => {
 	// ask database nicely for a list of all cafés
-	knex.select().from('cafees').clearWhere()
+	getDbConnection().select().from('cafees')
 	.then(rows => {
 		// once we get the list, send it to the view
 		res.render('cafees/index', {
@@ -52,10 +52,12 @@ app.get('/cafees', (req, res) => {
 	});
 });
 
+// create new cafe form
 app.get('/cafees/create', (req, res) => {
 	res.render('cafees/create');
 });
 
+// create new cafe in db
 app.post('/cafees', (req, res) => {
 	console.log("Would like to create a new cafee...");
 
@@ -85,7 +87,7 @@ app.post('/cafees', (req, res) => {
 app.get('/cafees/:cafeId', (req, res) => {
 	const cafeId = req.params.cafeId;
 
-	knex.select().from('cafees').where('id', cafeId)
+	getDbConnection().select().from('cafees').where('id', cafeId)
 	.then(rows => {
 		const cafee = (rows.length === 1)
 			? rows[0]
