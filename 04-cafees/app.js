@@ -133,7 +133,7 @@ app.post('/cafees/:cafeId', (req, res) => {
 	}
 
 	getDbConnection().table('cafees').update(cafee).where('id', cafeId)
-	.then(results => {
+	.then(() => {
 		console.log(`Updated café with ID ${cafeId}`);
 		res.redirect('/cafees/' + cafeId);
 	})
