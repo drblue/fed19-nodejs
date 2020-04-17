@@ -10,6 +10,17 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 const mysql = require('mysql');
 
+const knex = require('knex')({
+	client: 'mysql',
+	connection: {
+		host: process.env.DB_HOST || 'localhost',
+		port: process.env.DB_PORT || 3306,
+		user: process.env.DB_USER || 'fika',
+		password: process.env.DB_PASSWORD || '',
+		database: process.env.DB_NAME || 'fika',
+	},
+}).debug(true);
+
 // set ejs as our template engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -26,16 +37,26 @@ app.use((req, res, next) => {
 
 const getDbConnection = () => {
 	// connect to database
-	const db = mysql.createConnection({
-		host: process.env.DB_HOST || 'localhost',
-		port: process.env.DB_PORT || 3306,
-		user: process.env.DB_USER || 'fika',
-		password: process.env.DB_PASSWORD || '',
-		database: process.env.DB_NAME || 'fika',
-	});
+	const db = mysql.createConnection();
 	db.connect();
 	return db;
 }
+
+// show all cafées
+app.get('/cafees', (req, res) => {
+	// ask database nicely for a list of all cafés
+	knex.select().from('cafees')
+	.then(rows => {
+		// once we get the list, send it to the view
+		res.render('cafees/index', {
+			cafees: rows,
+		});
+	})
+	.catch(error => {
+		res.status(500).send('Sorry, database threw an error when trying to get all cafees.');
+		throw error;
+	});
+});
 
 app.get('/cafees/create', (req, res) => {
 	res.render('cafees/create');
@@ -87,24 +108,6 @@ app.get('/cafees/:cafeId', (req, res) => {
 		// once we get the café, send it to the view
 		res.render('cafees/show', {
 			cafee,
-		});
-	});
-});
-
-// show all cafées
-app.get('/cafees', (req, res) => {
-	// ask database nicely for a list of all cafés
-	getDbConnection().query('SELECT * FROM cafees', (error, results, fields) => {
-		// this callback will be executed once the query returns a result
-		if (error) {
-			// ABORT, ABORT! EJECT!
-			res.status(500).send('Sorry, database made a poo-poo.');
-			throw error;
-		}
-
-		// once we get the list, send it to the view
-		res.render('cafees/index', {
-			cafees: results,
 		});
 	});
 });
