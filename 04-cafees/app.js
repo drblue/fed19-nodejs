@@ -69,7 +69,7 @@ app.post('/cafees', (req, res) => {
 		city: req.body.city,
 	}
 
-	getDbConnection().insert(cafee).into('cafees')
+	cafeeDb.store(cafee)
 	.then(results => {
 		console.log("Created a new café with ID", results[0]);
 		res.redirect('/cafees/' + results[0]);
@@ -126,7 +126,7 @@ app.post('/cafees/:cafeId', (req, res) => {
 		city: req.body.city,
 	}
 
-	getDbConnection().table('cafees').update(cafee).where('id', cafeId)
+	cafeeDb.update(cafeId, cafee)
 	.then(() => {
 		console.log(`Updated café with ID ${cafeId}`);
 		res.redirect('/cafees/' + cafeId);
@@ -143,7 +143,7 @@ app.post('/cafees/:cafeId/delete', (req, res) => {
 
 	console.log(`Want to delete café with ID ${cafeId}...`);
 
-	getDbConnection().table('cafees').where('id', cafeId).del()
+	cafeeDb.destroy(cafeId)
 	.then(() => {
 		console.log(`Deleted café with ID ${cafeId}`);
 		res.redirect('/cafees');

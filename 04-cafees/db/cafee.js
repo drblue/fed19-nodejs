@@ -39,22 +39,36 @@ const get = async (cafeId) => {
 /**
  * Store café in db
  */
-const store = async (data) => {
+const store = (data) => {
+	return getDbConnection()
+		.insert(data)
+		.into('cafees');
 }
 
 /**
  * Update café in db
  */
-const update = async (cafeId, data) => {
+const update = (cafeId, data) => {
+	return getDbConnection()
+		.table('cafees')
+		.update(data)
+		.where('id', cafeId);
 }
 
 /**
  * Delete café in db
  */
-const destroy = async (cafeId) => {
+const destroy = (cafeId) => {
+	return getDbConnection()
+		.table('cafees')
+		.where('id', cafeId)
+		.del();
 }
 
 module.exports = {
 	getAll,
 	get,
+	store,
+	update,
+	destroy,
 }
