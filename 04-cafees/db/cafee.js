@@ -26,6 +26,17 @@ const getAll = () => {
 }
 
 /**
+ * Get all cafés owned by
+ */
+const getAllOwnedBy = (owner_id) => {
+	return getDbConnection()
+		.select()
+		.from('cafees')
+		.where('owner_id', owner_id)
+		.orderBy('name');
+}
+
+/**
  * Get specific café from db
  */
 const get = async (cafeId) => {
