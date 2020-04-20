@@ -42,10 +42,10 @@ const getDbConnection = () => {
 app.get('/cafees', (req, res) => {
 	// ask database nicely for a list of all cafés
 	cafeeDb.getAll()
-	.then(rows => {
+	.then(cafees => {
 		// once we get the list, send it to the view
 		res.render('cafees/index', {
-			cafees: rows,
+			cafees,
 		});
 	})
 	.catch(error => {
