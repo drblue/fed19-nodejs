@@ -7,3 +7,6 @@ GET       /cafees/:cafeId         show
 GET       /cafees/:cafeId/edit    edit
 POST      /cafees/:cafeId         update
 POST      /cafees/:cafeId/delete  destroy
+
+GET       /owners                 index
+GET       /owners/:ownerId        show
