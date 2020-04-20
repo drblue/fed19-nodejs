@@ -25,19 +25,6 @@ app.use((req, res, next) => {
 	next();
 });
 
-const getDbConnection = () => {
-	return require('knex')({
-		client: 'mysql',
-		connection: {
-			host: process.env.DB_HOST || 'localhost',
-			port: process.env.DB_PORT || 3306,
-			user: process.env.DB_USER || 'fika',
-			password: process.env.DB_PASSWORD || '',
-			database: process.env.DB_NAME || 'fika',
-		},
-	}).debug(true);
-}
-
 // show all cafées
 app.get('/cafees', (req, res) => {
 	// ask database nicely for a list of all cafés
