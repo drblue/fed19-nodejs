@@ -9,4 +9,9 @@ POST      /cafees/:cafeId         update
 POST      /cafees/:cafeId/delete  destroy
 
 GET       /owners                 index
+GET       /owners/create          create
+POST      /owners                 store
 GET       /owners/:ownerId        show
+GET       /owners/:ownerId/edit   edit
+POST      /owners/:ownerId        update
+POST      /owners/:ownerId/delete destroy

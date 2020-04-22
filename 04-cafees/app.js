@@ -10,6 +10,7 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 
 const cafeeRouter = require('./routes/cafee');
+const ownerRouter = require('./routes/owner');
 
 // set ejs as our template engine
 app.set('view engine', 'ejs');
@@ -26,6 +27,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/cafees', cafeeRouter);
+app.use('/owners', ownerRouter);
 
 // serve static files from `/public` folder
 // using the express static middleware
