@@ -43,20 +43,21 @@ const store = (req, res) => {
 	});
 };
 
-const show = (req, res) => {
+const show = async (req, res) => {
 	const cafeId = req.params.cafeId;
 
-	cafeeDb.get(cafeId)
-	.then(cafee => {
+	try {
+		const cafee = await cafeeDb.get(cafeId);
+
 		// once we get the café, send it to the view
 		res.render('cafees/show', {
 			cafee,
 		});
-	})
-	.catch(error => {
+
+	} catch (error) {
 		res.status(500).send(`Sorry, database threw an error when trying to get cafee with ID ${cafeId}.`);
 		throw error;
-	});
+	}
 };
 
 const edit = (req, res) => {
