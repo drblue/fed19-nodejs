@@ -29,18 +29,17 @@ const store = (req, res) => {
 const show = async (req, res) => {
 	const ownerId = req.params.ownerId;
 
-	const owner = await owners.get(ownerId);
-	const owner_cafees = await cafees.getAllOwnedBy(ownerId);
+	try {
+		const owner = await owners.get(ownerId);
+		const owner_cafees = await cafees.getAllOwnedBy(ownerId);
 
-	console.log(`Cafees owned by ownerId ${ownerId}:`, owner_cafees);
+		// render owner show view and pass along the data
+		res.render('owners/show', { owner, cafees: owner_cafees });
 
-	// render owner show view and pass along the data
-	res.render('owners/show', { owner, cafees: owner_cafees });
-
-	// .catch(error => {
-	// 	res.status(500).send(`Sorry, database threw an error when trying to get owner with ID ${ownerId}.`);
-	// 	throw error;
-	// });
+	} catch (error) {
+		res.status(500).send(`Sorry, database threw an error.`);
+		throw error;
+	}
 };
 
 const edit = (req, res) => {
