@@ -1,0 +1,15 @@
+<%- include('../layout/header'); -%>
+
+<h1>Alla ägare</h1>
+
+<% if (owners.length > 0) { %>
+	<ul>
+		<% owners.forEach(owner => { %>
+			<li><a href="/owners/<%= owner.id %>"><%= owner.first_name %> <%= owner.last_name %></a></li>
+		<% }); %>
+	</ul>
+<% } else { %>
+	<p>Ledsen, det finns inga ägare.</p>
+<% } %>
+
+<%- include('../layout/footer'); -%>

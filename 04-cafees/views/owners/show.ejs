@@ -1,0 +1,18 @@
+<%- include('../layout/header'); -%>
+
+<% if (owner) { %>
+	<h1><%= owner.first_name %> <%= owner.last_name %></h1>
+
+	<ul>
+		<li>E-post: <a href="mailto:<%= owner.email %>"><%= owner.email %></a></li>
+		<li>Telefon: <%= owner.phone %></li>
+	</ul>
+<% } else { %>
+	<p>Ledsen, den där ägaren kunde inte hittas.</p>
+<% } %>
+
+<div class="mt-4 d-flex justify-content-between">
+	<a href="/owners/" class="btn btn-secondary">Tillbaka till ägarna</a>
+</div>
+
+<%- include('../layout/footer'); -%>
