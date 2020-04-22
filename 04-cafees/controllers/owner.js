@@ -42,6 +42,22 @@ const show = async (req, res) => {
 	}
 };
 
+const showPromiseBased = (req, res) => {
+	const ownerId = req.params.ownerId;
+
+	Promise.all([
+		owners.get(ownerId),
+		cafees.getAllOwnedBy(ownerId),
+	])
+	.then(([ owner, owner_cafees ]) => {
+		res.render('owners/show', { owner, cafees: owner_cafees });
+	})
+	.catch(error => {
+		res.status(500).send(`Sorry, database threw an error.`);
+		throw error;
+	})
+};
+
 const edit = (req, res) => {
 	res.status(501).send('Editing a owner is not yet implemented.');
 };
