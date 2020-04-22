@@ -3,6 +3,7 @@
  */
 
 const cafeeDb = require('../db/cafee');
+const owners = require('../db/owners');
 
 const index = (req, res) => {
 	// ask database nicely for a list of all cafés
@@ -48,10 +49,14 @@ const show = async (req, res) => {
 
 	try {
 		const cafee = await cafeeDb.get(cafeId);
+		const owner = (cafee.owner_id)
+			? await owners.get(cafee.owner_id)
+			: false;
 
 		// once we get the café, send it to the view
 		res.render('cafees/show', {
 			cafee,
+			owner,
 		});
 
 	} catch (error) {
