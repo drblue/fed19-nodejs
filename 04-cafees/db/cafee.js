@@ -78,6 +78,7 @@ const destroy = (cafeId) => {
 
 module.exports = {
 	getAll,
+	getAllOwnedBy,
 	get,
 	store,
 	update,

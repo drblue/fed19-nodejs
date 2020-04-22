@@ -7,6 +7,17 @@
 		<li>E-post: <a href="mailto:<%= owner.email %>"><%= owner.email %></a></li>
 		<li>Telefon: <%= owner.phone %></li>
 	</ul>
+
+	<% if (cafees.length > 0) { %>
+		<h2>Äger caféerna:</h2>
+		<ul>
+			<% cafees.forEach(cafee => { %>
+				<li><a href="/cafees/<%= cafee.id %>"><%= cafee.name %></a></li>
+			<% }) %>
+		</ul>
+	<% } else { %>
+		<p><em><%= owner.first_name %> äger inga caféer 😔.</em></p>
+	<% } %>
 <% } else { %>
 	<p>Ledsen, den där ägaren kunde inte hittas.</p>
 <% } %>

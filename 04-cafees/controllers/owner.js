@@ -3,6 +3,7 @@
  */
 
 const owners = require('../db/owners');
+const cafees = require('../db/cafee');
 
 const index = (req, res) => {
 	// get all owners from db
@@ -25,18 +26,21 @@ const store = (req, res) => {
 	res.status(501).send('Storing a new owner is not yet implemented.');
 };
 
-const show = (req, res) => {
+const show = async (req, res) => {
 	const ownerId = req.params.ownerId;
 
-	owners.get(ownerId)
-	.then(owner => {
-		// render owner show view and pass along the data
-		res.render('owners/show', { owner });
-	})
-	.catch(error => {
-		res.status(500).send(`Sorry, database threw an error when trying to get owner with ID ${ownerId}.`);
-		throw error;
-	});
+	const owner = await owners.get(ownerId);
+	const owner_cafees = await cafees.getAllOwnedBy(ownerId);
+
+	console.log(`Cafees owned by ownerId ${ownerId}:`, owner_cafees);
+
+	// render owner show view and pass along the data
+	res.render('owners/show', { owner, cafees: owner_cafees });
+
+	// .catch(error => {
+	// 	res.status(500).send(`Sorry, database threw an error when trying to get owner with ID ${ownerId}.`);
+	// 	throw error;
+	// });
 };
 
 const edit = (req, res) => {
