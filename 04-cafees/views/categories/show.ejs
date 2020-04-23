@@ -1,0 +1,24 @@
+<%- include('../layout/header'); -%>
+
+<% if (category) { %>
+	<h1><%= category.name %></h1>
+
+	<% if (cafees.length > 0) { %>
+		<h2>Caféer:</h2>
+		<ul>
+			<% cafees.forEach(cafee => { %>
+				<li><a href="/cafees/<%= cafee.id %>"><%= cafee.name %></a></li>
+			<% }) %>
+		</ul>
+	<% } else { %>
+		<p><em>Kategorin saknar caféer 😔.</em></p>
+	<% } %>
+<% } else { %>
+	<p>Ledsen, den där kategorin finns inte.</p>
+<% } %>
+
+<div class="mt-4 d-flex justify-content-between">
+	<a href="/categories/" class="btn btn-secondary">Tillbaka till kategorierna</a>
+</div>
+
+<%- include('../layout/footer'); -%>

@@ -26,6 +26,25 @@ const getAll = () => {
 }
 
 /**
+ * Get all cafés in a specfic category
+ *
+ * SELECT * FROM cafees WHERE id IN (
+ *   SELECT cafee_id FROM cafee_category WHERE category_id = 1
+ * )
+ */
+const getAllInCategory = (category_id) => {
+	return getDbConnection()
+		.select()
+		.from('cafees')
+		.whereIn('id', function() {
+			this.select('cafee_id')
+				.from('cafee_category')
+				.where('category_id', category_id);
+		})
+		.orderBy('name');
+}
+
+/**
  * Get all cafés owned by
  */
 const getAllOwnedBy = (owner_id) => {
@@ -78,6 +97,7 @@ const destroy = (cafeId) => {
 
 module.exports = {
 	getAll,
+	getAllInCategory,
 	getAllOwnedBy,
 	get,
 	store,

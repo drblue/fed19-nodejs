@@ -1,0 +1,15 @@
+<%- include('../layout/header'); -%>
+
+<h1>Alla kategorier</h1>
+
+<% if (categories.length > 0) { %>
+	<ul>
+		<% categories.forEach(category => { %>
+			<li><a href="/categories/<%= category.id %>"><%= category.name %></a></li>
+		<% }); %>
+	</ul>
+<% } else { %>
+	<p>Ledsen, det finns inga kategorier.</p>
+<% } %>
+
+<%- include('../layout/footer'); -%>
