@@ -16,7 +16,7 @@
 	<h3>Kategorier</h3>
 	<p>
 		<% if (categories.length) { %>
-			<%= categories.map(category => category.name).join(', ') %>
+			<%- categories.map(category => `<a href="/categories/${category.id}">${category.name}</a>`).join(', ') %>
 		<% } else { %>
 			Caféet saknar kategorier.
 		<% } %>
