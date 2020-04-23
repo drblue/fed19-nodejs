@@ -4,10 +4,23 @@
 	<h1><%= cafee.name %></h1>
 	<h2><%= cafee.address %>, <%= cafee.city %></h2>
 
+	<hr>
+
 	<% if (owner) { %>
 		<h3>Ägare</h3>
 		<p><a href="/owners/<%= owner.id %>"><%= owner.first_name %> <%= owner.last_name %></a></p>
 	<% } %>
+
+	<hr>
+
+	<h3>Kategorier</h3>
+	<p>
+		<% if (categories.length) { %>
+			...
+		<% } else { %>
+			Caféet saknar kategorier.
+		<% } %>
+	</p>
 <% } else { %>
 	<p>Ledsen, det där caféet kunde inte hittas.</p>
 <% } %>

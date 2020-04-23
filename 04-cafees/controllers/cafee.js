@@ -3,6 +3,7 @@
  */
 
 const cafeeDb = require('../db/cafee');
+const categories = require('../db/categories');
 const owners = require('../db/owners');
 
 const index = (req, res) => {
@@ -52,10 +53,15 @@ const show = async (req, res) => {
 		const owner = (cafee.owner_id)
 			? await owners.get(cafee.owner_id)
 			: false;
+		const cafee_categories = await categories.getForCafee(cafeId);
+
+		console.log("This cafees categories:");
+		console.log(cafee_categories);
 
 		// once we get the café, send it to the view
 		res.render('cafees/show', {
 			cafee,
+			categories: cafee_categories,
 			owner,
 		});
 
