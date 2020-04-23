@@ -8,6 +8,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const moment = require('moment');
+const morgan = require('morgan');
 
 const cafeeRouter = require('./routes/cafee');
 const categoriesRouter = require('./routes/categories');
@@ -21,11 +22,8 @@ app.set('views', './views');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// register a middleware that logs all requests to the console
-app.use((req, res, next) => {
-	console.log(`${moment().format('YYYY-MM-DD HH:mm:ss.SSS')} - Incoming ${req.method} request for: ${req.url}`);
-	next();
-});
+// log all requests
+app.use(morgan('tiny'));
 
 app.use('/cafees', cafeeRouter);
 app.use('/categories', categoriesRouter);
