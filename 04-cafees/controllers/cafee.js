@@ -55,9 +55,6 @@ const show = async (req, res) => {
 			: false;
 		const cafee_categories = await categories.getForCafee(cafeId);
 
-		console.log("This cafees categories:");
-		console.log(cafee_categories);
-
 		// once we get the café, send it to the view
 		res.render('cafees/show', {
 			cafee,

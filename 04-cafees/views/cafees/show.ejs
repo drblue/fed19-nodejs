@@ -2,11 +2,11 @@
 
 <% if (cafee) { %>
 	<h1><%= cafee.name %></h1>
-	<h2><%= cafee.address %>, <%= cafee.city %></h2>
-
-	<hr>
+	<h2><%= cafee.address ? cafee.address + ', ' + cafee.city : cafee.city %></h2>
 
 	<% if (owner) { %>
+		<hr>
+
 		<h3>Ägare</h3>
 		<p><a href="/owners/<%= owner.id %>"><%= owner.first_name %> <%= owner.last_name %></a></p>
 	<% } %>
@@ -16,7 +16,7 @@
 	<h3>Kategorier</h3>
 	<p>
 		<% if (categories.length) { %>
-			...
+			<%= categories.map(category => category.name).join(', ') %>
 		<% } else { %>
 			Caféet saknar kategorier.
 		<% } %>
