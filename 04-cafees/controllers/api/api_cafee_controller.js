@@ -44,7 +44,15 @@ const show = async (req, res) => {
 
 		cafee.categories = await categories.getForCafee(cafeId);
 
-		res.send(cafee);
+		// res.send(cafee);
+		res.send({
+			id: cafee.id,
+			name: cafee.name,
+			address: cafee.address,
+			city: cafee.city,
+			owner: cafee.owner,
+			categories: cafee.categories,
+		});
 
 	} catch (error) {
 		res.status(500).send({
