@@ -10,10 +10,6 @@ const bodyParser = require('body-parser');
 const moment = require('moment');
 const morgan = require('morgan');
 
-const cafeeRouter = require('./routes/cafee');
-const categoriesRouter = require('./routes/categories');
-const ownerRouter = require('./routes/owner');
-
 // set ejs as our template engine
 app.set('view engine', 'ejs');
 app.set('views', './views');
@@ -25,9 +21,9 @@ app.use(bodyParser.json());
 // log all requests
 app.use(morgan('tiny'));
 
-app.use('/cafees', cafeeRouter);
-app.use('/categories', categoriesRouter);
-app.use('/owners', ownerRouter);
+app.use('/cafees', require('./routes/cafee'));
+app.use('/categories', require('./routes/categories'));
+app.use('/owners', require('./routes/owner'));
 
 // serve static files from `/public` folder
 // using the express static middleware
