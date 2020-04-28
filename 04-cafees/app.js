@@ -33,7 +33,7 @@ app.use('/owners', ownerRouter);
 // using the express static middleware
 app.use(express.static('public'));
 
-// listen on port 3000
-app.listen(3000, () => {
-	console.log('Server online at http://localhost:3000');
+// start server
+app.listen(process.env.PORT || 3000, () => {
+	console.log(`Server online at http://localhost:${process.env.PORT || 3000}`);
 });
