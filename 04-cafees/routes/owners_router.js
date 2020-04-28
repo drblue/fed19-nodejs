@@ -4,7 +4,7 @@
 
 const express = require('express');
 const router = express.Router();
-const { index, create, store, show, edit, update, destroy } = require('../controllers/owner');
+const { index, create, store, show, edit, update, destroy } = require('../controllers/owner_controller');
 
 router.get('/', index);
 router.get('/create', create);

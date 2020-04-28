@@ -2,8 +2,8 @@
  * Category controller
  */
 
-const cafees = require('../db/cafee');
-const categories = require('../db/categories');
+const cafees = require('../db/cafees_db');
+const categories = require('../db/categories_db');
 
 /**
  * Show index of all categories.

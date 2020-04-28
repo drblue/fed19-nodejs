@@ -2,8 +2,8 @@
  * Owner controller
  */
 
-const owners = require('../db/owners');
-const cafees = require('../db/cafee');
+const owners = require('../db/owners_db');
+const cafees = require('../db/cafees_db');
 
 const index = (req, res) => {
 	// get all owners from db

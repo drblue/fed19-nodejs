@@ -21,9 +21,9 @@ app.use(bodyParser.json());
 // log all requests
 app.use(morgan('tiny'));
 
-app.use('/cafees', require('./routes/cafee'));
-app.use('/categories', require('./routes/categories'));
-app.use('/owners', require('./routes/owner'));
+app.use('/cafees', require('./routes/cafees_router'));
+app.use('/categories', require('./routes/categories_router'));
+app.use('/owners', require('./routes/owners_router'));
 
 app.use('/api/cafees', require('./routes/api/api_cafees_router'));
 

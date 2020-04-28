@@ -2,9 +2,9 @@
  * Cafee controller
  */
 
-const cafeeDb = require('../db/cafee');
-const categories = require('../db/categories');
-const owners = require('../db/owners');
+const cafeeDb = require('../db/cafees_db');
+const categories = require('../db/categories_db');
+const owners = require('../db/owners_db');
 
 const index = (req, res) => {
 	// ask database nicely for a list of all cafés
