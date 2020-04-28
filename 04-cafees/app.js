@@ -25,6 +25,8 @@ app.use('/cafees', require('./routes/cafee'));
 app.use('/categories', require('./routes/categories'));
 app.use('/owners', require('./routes/owner'));
 
+app.use('/api/cafees', require('./routes/api/api_cafees_router'));
+
 // serve static files from `/public` folder
 // using the express static middleware
 app.use(express.static('public'));
