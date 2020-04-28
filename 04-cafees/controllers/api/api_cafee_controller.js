@@ -21,8 +21,33 @@ const index = (req, res) => {
 }
 
 // Create a café
-const store = (req, res) => {
-	res.send({ message: 'POST /'});
+const store = async (req, res) => {
+	const data = {
+		name: req.body.name,
+		address: req.body.address,
+		city: req.body.city,
+	};
+
+	try {
+		const result = await cafees.store(data);
+		if (result.length !== 1) {
+			res.status(500).send({
+				error: 'Unexpected result when inserting cafee into database.',
+			});
+			return;
+		}
+
+		const cafeeId = result[0];
+		const cafee = await cafees.get(cafeeId);
+
+		res.send(cafee);
+
+	} catch (error) {
+		res.status(500).send({
+			error: `Sorry, database threw an error when trying to store a new cafee.`,
+		});
+		throw error;
+	}
 };
 
 // Get a specific café
