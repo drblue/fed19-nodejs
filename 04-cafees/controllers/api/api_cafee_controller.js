@@ -119,8 +119,26 @@ const update = async (req, res) => {
 };
 
 // Delete a specific café
-const destroy = (req, res) => {
-	res.send({ message: 'DELETE /' + req.params.cafeId });
+const destroy = async (req, res) => {
+	const cafeId = req.params.cafeId;
+
+	try {
+		const result = await cafees.destroy(cafeId);
+		if (!result) {
+			res.status(404).send({
+				error: `No cafee with ID ${cafeId} to destroy.`,
+			});
+			return;
+		}
+
+		res.send({ status: 'success' });
+
+	} catch (error) {
+		res.status(500).send({
+			error: `Sorry, database threw an error when trying to destroy cafee with ID ${cafeId}.`,
+		});
+		throw error;
+	}
 };
 
 module.exports = {
