@@ -100,8 +100,8 @@ const update = async (req, res) => {
 	try {
 		const result = await cafees.update(cafeId, data);
 		if (!result) {
-			res.status(500).send({
-				error: `Unexpected result when trying to update cafee with ID ${cafeId}.`,
+			res.status(404).send({
+				error: `No cafee with ID ${cafeId} to update.`,
 			});
 			return;
 		}
