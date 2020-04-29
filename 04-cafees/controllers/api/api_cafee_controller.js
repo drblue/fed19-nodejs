@@ -88,8 +88,34 @@ const show = async (req, res) => {
 };
 
 // Update a specific café
-const update = (req, res) => {
-	res.send({ message: 'PUT /' + req.params.cafeId });
+const update = async (req, res) => {
+	const cafeId = req.params.cafeId;
+
+	const data = {
+		name: req.body.name,
+		address: req.body.address,
+		city: req.body.city,
+	};
+
+	try {
+		const result = await cafees.update(cafeId, data);
+		if (!result) {
+			res.status(500).send({
+				error: `Unexpected result when trying to update cafee with ID ${cafeId}.`,
+			});
+			return;
+		}
+
+		const cafee = await cafees.get(cafeId);
+
+		res.send(cafee);
+
+	} catch (error) {
+		res.status(500).send({
+			error: `Sorry, database threw an error when trying to update cafee with ID ${cafeId}.`,
+		});
+		throw error;
+	}
 };
 
 // Delete a specific café
