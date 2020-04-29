@@ -31,7 +31,7 @@ app.use('/api/cafees', require('./routes/api/api_cafees_router'));
 app.post('/api/test', [
 	body('name').trim().isLength({ min: 3 }),
 	body('address').exists().trim().isString(),
-	body('city').isString().notEmpty(),
+	body('city').optional().isString().notEmpty(),
 ], (req, res) => {
 	const result = validationResult(req);
 	if (!result.isEmpty()) {
