@@ -110,7 +110,14 @@ const update = async (req, res) => {
 	// 2. extract valid data
 	const validData = matchedData(req);
 
+	// 3. check that we actually have any data to try to update
+	if (!Object.getLength(validData)) {
+		res.status(400).send({ error: 'No data.' });
+		return;
+	}
+
 	try {
+		// 4. update database entry with the new data
 		const result = await cafees.update(cafeId, validData);
 		if (!result) {
 			res.status(404).send({
