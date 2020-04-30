@@ -28,7 +28,7 @@ app.use('/api/cafees', require('./routes/api/api_cafees_router'));
 
 app.post('/api/test', [
 	body('name').trim().isLength({ min: 3 }),
-	body('address').exists().trim().isString(),
+	body('address').exists().trim().not().isNumeric(),
 	body('city').optional().isString().notEmpty(),
 ], (req, res) => {
 	const result = validationResult(req);
@@ -42,7 +42,7 @@ app.post('/api/test', [
 	const validData = matchedData(req);
 	console.log("Valid data", validData);
 
-	res.send({ status: 'success' });
+	res.send({ status: 'success', validData });
 })
 
 // serve static files from `/public` folder

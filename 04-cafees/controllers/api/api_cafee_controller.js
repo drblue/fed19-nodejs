@@ -2,6 +2,8 @@
  * API Café Controller
  */
 
+const { matchedData, validationResult } = require('express-validator');
+
 const cafees = require('../../db/cafees_db');
 const categories = require('../../db/categories_db');
 const owners = require('../../db/owners_db');
@@ -22,14 +24,20 @@ const index = (req, res) => {
 
 // Create a café
 const store = async (req, res) => {
-	const data = {
-		name: req.body.name,
-		address: req.body.address,
-		city: req.body.city,
-	};
+	// 1. check validation result
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log("Validation for a new café failed:", errors.array());
+		res.status(422).send({ errors: errors.array() });
+		return;
+	}
+
+	// 2. extract valid data
+	const validData = matchedData(req);
 
 	try {
-		const result = await cafees.store(data);
+		// 3. insert valid data into database
+		const result = await cafees.store(validData);
 		if (result.length !== 1) {
 			res.status(500).send({
 				error: 'Unexpected result when inserting cafee into database.',
