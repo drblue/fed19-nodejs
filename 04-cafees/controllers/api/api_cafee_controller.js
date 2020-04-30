@@ -8,18 +8,6 @@ const cafees = require('../../db/cafees_db');
 const categories = require('../../db/categories_db');
 const owners = require('../../db/owners_db');
 
-const createCafeeValidationRules = [
-	body('name').trim().isLength({ min: 3 }),
-	body('address').trim().isLength({ min: 3 }),
-	body('city').trim().isLength({ min: 3 }),
-];
-
-const updateCafeeValidationRules = [
-	body('name').optional().trim().isLength({ min: 3 }),
-	body('address').optional().trim().isLength({ min: 3 }),
-	body('city').optional().trim().isLength({ min: 3 }),
-];
-
 // Get index of all cafés
 const index = (req, res) => {
 	cafees.getAll()
@@ -174,8 +162,6 @@ const destroy = async (req, res) => {
 };
 
 module.exports = {
-	createCafeeValidationRules,
-	updateCafeeValidationRules,
 	index,
 	store,
 	show,

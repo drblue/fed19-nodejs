@@ -1,3 +1,5 @@
+const { body } = require('express-validator');
+
 /**
  * DB functions for cafés
  */
@@ -14,6 +16,21 @@ const getDbConnection = () => {
 		},
 	}).debug(true);
 }
+
+/**
+ * Validation rules
+ */
+const createValidationRules = [
+	body('name').trim().isLength({ min: 3 }),
+	body('address').trim().isLength({ min: 3 }),
+	body('city').trim().isLength({ min: 3 }),
+];
+
+const updateValidationRules = [
+	body('name').optional().trim().isLength({ min: 3 }),
+	body('address').optional().trim().isLength({ min: 3 }),
+	body('city').optional().trim().isLength({ min: 3 }),
+];
 
 /**
  * Get all cafés from db
@@ -96,6 +113,9 @@ const destroy = (cafeId) => {
 }
 
 module.exports = {
+	createValidationRules,
+	updateValidationRules,
+
 	getAll,
 	getAllInCategory,
 	getAllOwnedBy,
