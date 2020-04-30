@@ -17,6 +17,10 @@ app.set('views', './views');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// allow cors
+const cors = require('cors');
+app.use(cors());
+
 // log all requests
 app.use(morgan('tiny'));
 
