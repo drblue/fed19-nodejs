@@ -6,9 +6,7 @@ require('dotenv').config();
 const express = require('express');
 
 const app = express();
-const bodyParser = require('body-parser');
 const { body, matchedData, validationResult } = require('express-validator');
-const moment = require('moment');
 const morgan = require('morgan');
 
 // set ejs as our template engine
@@ -16,8 +14,8 @@ app.set('view engine', 'ejs');
 app.set('views', './views');
 
 // attach body-parser
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // log all requests
 app.use(morgan('tiny'));
