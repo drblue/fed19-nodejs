@@ -99,14 +99,19 @@ const show = async (req, res) => {
 const update = async (req, res) => {
 	const cafeId = req.params.cafeId;
 
-	const data = {
-		name: req.body.name,
-		address: req.body.address,
-		city: req.body.city,
-	};
+	// 1. check validation result
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log(`Validation for updating café with ID ${cafeId} failed:`, errors.array());
+		res.status(422).send({ errors: errors.array() });
+		return;
+	}
+
+	// 2. extract valid data
+	const validData = matchedData(req);
 
 	try {
-		const result = await cafees.update(cafeId, data);
+		const result = await cafees.update(cafeId, validData);
 		if (!result) {
 			res.status(404).send({
 				error: `No cafee with ID ${cafeId} to update.`,

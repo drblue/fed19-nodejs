@@ -21,7 +21,11 @@ router.post('/', [
 router.get('/:cafeId', show);
 
 // PUT /:cafeId
-router.put('/:cafeId', update);
+router.put('/:cafeId', [
+	body('name').optional().trim().isLength({ min: 3 }),
+	body('address').optional().trim().isLength({ min: 3 }),
+	body('city').optional().trim().isLength({ min: 3 }),
+], update);
 
 // DELETE /:cafeId
 router.delete('/:cafeId', destroy);
