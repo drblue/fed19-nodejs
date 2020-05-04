@@ -3,7 +3,7 @@ import { Link, NavLink } from 'react-router-dom';
 
 function Navigation() {
 	return (
-		<nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+		<nav className="navbar navbar-expand-md navbar-dark bg-dark">
 			<div className="container">
 				<Link to="/" className="navbar-brand">
 					Fika <span role="img" aria-label="a coffee cup">☕️</span><span role="img" aria-label="a cookie with chocholate pieces">🍪</span>
