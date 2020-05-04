@@ -25,10 +25,10 @@ class CafeeIndex extends React.Component {
 			<div id="cafee-index">
 				<h1>Alla caféer</h1>
 
-				<ul>
+				<ul className="cafees">
 					{this.state.cafees.map((cafee, index) =>
-						(<li className="" key={index}>
-							<a className="" href="/">{cafee.name} ({cafee.id})</a>
+						(<li key={index}>
+							<Link to={'/cafees/' + cafee.id}>{cafee.name}</Link>
 						</li>)
 					)}
 				</ul>
