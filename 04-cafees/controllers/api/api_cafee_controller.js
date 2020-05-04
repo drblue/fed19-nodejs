@@ -12,11 +12,17 @@ const owners = require('../../db/owners_db');
 const index = (req, res) => {
 	cafees.getAll()
 	.then(cafees => {
-		res.send(cafees);
+		res.send({
+			status: 'success',
+			data: {
+				cafees,
+			}
+		});
 	})
 	.catch(error => {
 		res.status(500).send({
-			error: 'Sorry, database threw an error when trying to get all cafees.',
+			status: 'error',
+			message: 'Sorry, database threw an error when trying to get all cafees.',
 		});
 		throw error;
 	});
@@ -28,7 +34,10 @@ const store = async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		console.log("Validation for a new café failed:", errors.array());
-		res.status(422).send({ errors: errors.array() });
+		res.status(422).send({
+			status: 'fail',
+			data: errors.array(),
+		});
 		return;
 	}
 
@@ -40,7 +49,8 @@ const store = async (req, res) => {
 		const result = await cafees.store(validData);
 		if (result.length !== 1) {
 			res.status(500).send({
-				error: 'Unexpected result when inserting cafee into database.',
+				status: 'error',
+				message: 'Unexpected result when inserting cafee into database.',
 			});
 			return;
 		}
@@ -52,7 +62,8 @@ const store = async (req, res) => {
 
 	} catch (error) {
 		res.status(500).send({
-			error: `Sorry, database threw an error when trying to store a new cafee.`,
+			status: 'error',
+			message: `Sorry, database threw an error when trying to store a new cafee.`,
 		});
 		throw error;
 	}
