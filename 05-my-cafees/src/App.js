@@ -1,6 +1,9 @@
 import React from 'react';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 import './styles/app.scss';
 import axios from 'axios';
+import Navigation from './components/Navigation';
+import NotFound from './components/NotFound';
 
 class App extends React.Component {
 
@@ -9,7 +12,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3001/api/cafees')
+		axios.get('http://localhost:3000/api/cafees')
 		.then(response => {
 			this.setState({
 				cafees: response.data,
@@ -22,36 +25,29 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div id="App">
+			<BrowserRouter>
+				<div id="App">
 
-				<nav className="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
-					<div className="container">
-						<a className="navbar-brand" href="/">Fika <span role="img" aria-label="a coffee cup">☕️</span><span role="img" aria-label="a cookie with chocholate pieces">🍪</span></a>
-						<div className="collapse navbar-collapse" id="navbarNav">
-							<ul className="navbar-nav">
-								<li className="nav-item active">
-									<a className="nav-link" href="/">Alla caféer</a>
-								</li>
-							</ul>
-						</div>
+					<Navigation />
+
+					<div className="container my-5">
+						<Switch>
+							{/* <Route exact path='/' component={CafeesIndex} />
+							<Route path='/cafees/:id' component={CafeesShow} /> */}
+							<Route component={NotFound} />
+						</Switch>
+						<h1>Alla caféer</h1>
+
+						<ul>
+							{this.state.cafees.map((cafee, index) =>
+								(<li className="" key={index}>
+									<a className="" href="/">{cafee.name} ({cafee.id})</a>
+								</li>)
+							)}
+						</ul>
 					</div>
-					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-						<span className="navbar-toggler-icon"></span>
-					</button>
-				</nav>
-
-				<div className="container">
-					<h1>Alla caféer</h1>
-
-					<ul>
-						{this.state.cafees.map((cafee, index) =>
-							(<li className="" key={index}>
-								<a className="" href="/">{cafee.name} ({cafee.id})</a>
-							</li>)
-						)}
-					</ul>
 				</div>
-			</div>
+			</BrowserRouter>
 		)
 	}
 }
