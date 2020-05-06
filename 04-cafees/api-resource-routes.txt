@@ -1,0 +1,17 @@
+Verb      URI                          Action
+--------- ---------------------------- -------
+GET       /api/cafees                  api_cafee_controller@index
+POST      /api/cafees                  api_cafee_controller@store
+GET       /api/cafees/:cafeId          api_cafee_controller@show
+PUT       /api/cafees/:cafeId          api_cafee_controller@update
+DELETE    /api/cafees/:cafeId          api_cafee_controller@destroy
+
+Verb      URI                          Action
+--------- ---------------------------- -------
+GET       /api/categories              api_category_controller@index
+GET       /api/categories/:categoryId  api_category_controller@show
+
+Verb      URI                          Action
+--------- ---------------------------- -------
+GET       /api/owners                  api_owner_controller@index
+GET       /api/owners/:ownerId         api_owner_controller@show

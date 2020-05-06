@@ -112,7 +112,7 @@ const show = async (req, res) => {
 
 	} catch (error) {
 		res.status(500).send({
-			status: 'fail',
+			status: 'error',
 			message: `Sorry, database threw an error when trying to get cafee with ID ${cafeId}.`,
 		});
 		throw error;

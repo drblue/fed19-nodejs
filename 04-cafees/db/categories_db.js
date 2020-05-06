@@ -2,6 +2,8 @@
  * DB functions for categories
  */
 
+const { body } = require('express-validator');
+
 const getDbConnection = () => {
 	return require('knex')({
 		client: 'mysql',
@@ -14,6 +16,17 @@ const getDbConnection = () => {
 		},
 	}).debug(true);
 }
+
+/**
+ * Validation rules
+ */
+const createValidationRules = [
+	body('name').trim().isLength({ min: 3 }),
+];
+
+const updateValidationRules = [
+	body('name').optional().trim().isLength({ min: 3 }),
+];
 
 /**
  * Get all categories from db
@@ -56,6 +69,9 @@ const get = async (category_id) => {
 }
 
 module.exports = {
+	createValidationRules,
+	updateValidationRules,
+
 	getAll,
 	getForCafee,
 	get,

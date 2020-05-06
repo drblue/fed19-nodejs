@@ -24,30 +24,14 @@ app.use(cors());
 // log all requests
 app.use(morgan('tiny'));
 
+// HTML endpoints
 app.use('/cafees', require('./routes/cafees_router'));
 app.use('/categories', require('./routes/categories_router'));
 app.use('/owners', require('./routes/owners_router'));
 
+// API endpoints
 app.use('/api/cafees', require('./routes/api/api_cafees_router'));
-
-app.post('/api/test', [
-	body('name').trim().isLength({ min: 3 }),
-	body('address').exists().trim().not().isNumeric(),
-	body('city').optional().isString().notEmpty(),
-], (req, res) => {
-	const result = validationResult(req);
-	if (!result.isEmpty()) {
-		res.status(422).send({ errors: result.array() });
-		return;
-	}
-
-	console.log("Incoming body:", req.body);
-
-	const validData = matchedData(req);
-	console.log("Valid data", validData);
-
-	res.send({ status: 'success', validData });
-})
+app.use('/api/categories', require('./routes/api/api_categories_router'));
 
 // serve static files from `/public` folder
 // using the express static middleware
