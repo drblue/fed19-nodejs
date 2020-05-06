@@ -58,7 +58,12 @@ const store = async (req, res) => {
 		const cafeeId = result[0];
 		const cafee = await cafees.get(cafeeId);
 
-		res.send(cafee);
+		res.send({
+			status: 'success',
+			data: {
+				cafee,
+			}
+		});
 
 	} catch (error) {
 		res.status(500).send({
@@ -77,7 +82,9 @@ const show = async (req, res) => {
 		const cafee = await cafees.get(cafeId);
 		if (!cafee) {
 			res.status(404).send({
-				error: `Sorry, cafee with ID ${cafeId} could not be found.`,
+				status: 'fail',
+				data: null,
+				message: `Sorry, cafee with ID ${cafeId} could not be found.`,
 			});
 			return;
 		}
@@ -90,17 +97,23 @@ const show = async (req, res) => {
 
 		// res.send(cafee);
 		res.send({
-			id: cafee.id,
-			name: cafee.name,
-			address: cafee.address,
-			city: cafee.city,
-			owner: cafee.owner,
-			categories: cafee.categories,
+			status: 'success',
+			data: {
+				cafee: {
+					id: cafee.id,
+					name: cafee.name,
+					address: cafee.address,
+					city: cafee.city,
+					owner: cafee.owner,
+					categories: cafee.categories,
+				}
+			}
 		});
 
 	} catch (error) {
 		res.status(500).send({
-			error: `Sorry, database threw an error when trying to get cafee with ID ${cafeId}.`,
+			status: 'fail',
+			message: `Sorry, database threw an error when trying to get cafee with ID ${cafeId}.`,
 		});
 		throw error;
 	}
@@ -114,7 +127,10 @@ const update = async (req, res) => {
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		console.log(`Validation for updating café with ID ${cafeId} failed:`, errors.array());
-		res.status(422).send({ errors: errors.array() });
+		res.status(422).send({
+			status: 'fail',
+			data: errors.array(),
+		});
 		return;
 	}
 
@@ -132,18 +148,26 @@ const update = async (req, res) => {
 		const result = await cafees.update(cafeId, validData);
 		if (!result) {
 			res.status(404).send({
-				error: `No cafee with ID ${cafeId} to update.`,
+				status: 'fail',
+				data: null,
+				message: `No cafee with ID ${cafeId} to update.`,
 			});
 			return;
 		}
 
 		const cafee = await cafees.get(cafeId);
 
-		res.send(cafee);
+		res.send({
+			status: 'success',
+			data: {
+				cafee
+			}
+		});
 
 	} catch (error) {
 		res.status(500).send({
-			error: `Sorry, database threw an error when trying to update cafee with ID ${cafeId}.`,
+			status: 'error',
+			message: `Sorry, database threw an error when trying to update cafee with ID ${cafeId}.`,
 		});
 		throw error;
 	}
@@ -157,16 +181,22 @@ const destroy = async (req, res) => {
 		const result = await cafees.destroy(cafeId);
 		if (!result) {
 			res.status(404).send({
-				error: `No cafee with ID ${cafeId} to destroy.`,
+				status: 'fail',
+				data: null,
+				message: `No cafee with ID ${cafeId} to destroy.`,
 			});
 			return;
 		}
 
-		res.send({ status: 'success' });
+		res.send({
+			status: 'success',
+			data: null,
+		});
 
 	} catch (error) {
 		res.status(500).send({
-			error: `Sorry, database threw an error when trying to destroy cafee with ID ${cafeId}.`,
+			status: 'error',
+			message: `Sorry, database threw an error when trying to destroy cafee with ID ${cafeId}.`,
 		});
 		throw error;
 	}
