@@ -122,7 +122,7 @@ const update = async (req, res) => {
 	const validData = matchedData(req);
 
 	// 3. check that we actually have any data to try to update
-	if (!Object.getLength(validData)) {
+	if (!Object.keys(validData).length) {
 		res.status(400).send({ error: 'No data.' });
 		return;
 	}
