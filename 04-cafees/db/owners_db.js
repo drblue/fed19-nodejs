@@ -2,6 +2,8 @@
  * DB functions for owners
  */
 
+const { body } = require('express-validator');
+
 const getDbConnection = () => {
 	return require('knex')({
 		client: 'mysql',
@@ -16,14 +18,31 @@ const getDbConnection = () => {
 }
 
 /**
+ * Validation rules
+ */
+const createValidationRules = [
+	body('first_name').trim().isLength({ min: 1 }),
+	body('last_name').trim().isLength({ min: 1 }),
+	body('email').optional().trim().isEmail(),
+	body('phone').optional().trim().isLength({ min: 8 }),
+];
+
+const updateValidationRules = [
+	body('first_name').trim().isLength({ min: 1 }),
+	body('last_name').trim().isLength({ min: 1 }),
+	body('email').optional().trim().isEmail(),
+	body('phone').optional().trim().isLength({ min: 8 }),
+];
+
+/**
  * Get all owners from db
- *
- * @todo: sort by first_name followed by last_name
  */
 const getAll = () => {
 	return getDbConnection()
 		.select()
-		.from('owners');
+		.from('owners')
+		.orderBy('first_name')
+		.orderBy('last_name');
 }
 
 /**
@@ -38,6 +57,9 @@ const get = async (ownerId) => {
 }
 
 module.exports = {
+	createValidationRules,
+	updateValidationRules,
+
 	getAll,
 	get,
 }

@@ -32,6 +32,7 @@ app.use('/owners', require('./routes/owners_router'));
 // API endpoints
 app.use('/api/cafees', require('./routes/api/api_cafees_router'));
 app.use('/api/categories', require('./routes/api/api_categories_router'));
+app.use('/api/owners', require('./routes/api/api_owners_router'));
 
 // serve static files from `/public` folder
 // using the express static middleware
