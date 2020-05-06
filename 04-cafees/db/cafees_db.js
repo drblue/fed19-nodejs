@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const owners = require('./owners_db');
 
 /**
  * DB functions for cafés
@@ -30,6 +31,24 @@ const updateValidationRules = [
 	body('name').optional().trim().isLength({ min: 3 }),
 	body('address').optional().trim().isLength({ min: 3 }),
 	body('city').optional().trim().isLength({ min: 3 }),
+	body('owner_id').optional().custom(async value => {
+		// allow null
+		if (value === null) {
+			return true;
+		}
+
+		// if integer, validate that a owner with that id exists
+		if (typeof value === "number") {
+			// check that a owner with id `value` exists
+			const owner = await owners.get(value);
+
+			return owner
+				? true
+				: Promise.reject('Owner does not exist.');
+		}
+
+		return false;
+	}),
 ];
 
 /**
