@@ -34,7 +34,7 @@ const updateValidationRules = [
 	body('owner_id').optional().custom(async value => {
 		// allow null
 		if (value === null) {
-			return true;
+			return Promise.resolve();
 		}
 
 		// if integer, validate that a owner with that id exists
@@ -43,11 +43,11 @@ const updateValidationRules = [
 			const owner = await owners.get(value);
 
 			return owner
-				? true
+				? Promise.resolve()
 				: Promise.reject('Owner does not exist.');
 		}
 
-		return false;
+		return Promise.reject('Invalid data type.');
 	}),
 ];
 
