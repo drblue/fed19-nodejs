@@ -19,36 +19,42 @@ const getDbConnection = () => {
 }
 
 /**
+ * Custom field validators
+ */
+const ownerIdValidator = async value => {
+	// allow null
+	if (value === null) {
+		return Promise.resolve();
+	}
+
+	// if integer, validate that a owner with that id exists
+	if (typeof value === "number") {
+		// check that a owner with id `value` exists
+		const owner = await owners.get(value);
+
+		return owner
+			? Promise.resolve()
+			: Promise.reject('Owner does not exist.');
+	}
+
+	return Promise.reject('Invalid data type.');
+};
+
+/**
  * Validation rules
  */
 const createValidationRules = [
 	body('name').trim().isLength({ min: 3 }),
 	body('address').trim().isLength({ min: 3 }),
 	body('city').trim().isLength({ min: 3 }),
+	body('owner_id').optional().custom(ownerIdValidator),
 ];
 
 const updateValidationRules = [
 	body('name').optional().trim().isLength({ min: 3 }),
 	body('address').optional().trim().isLength({ min: 3 }),
 	body('city').optional().trim().isLength({ min: 3 }),
-	body('owner_id').optional().custom(async value => {
-		// allow null
-		if (value === null) {
-			return Promise.resolve();
-		}
-
-		// if integer, validate that a owner with that id exists
-		if (typeof value === "number") {
-			// check that a owner with id `value` exists
-			const owner = await owners.get(value);
-
-			return owner
-				? Promise.resolve()
-				: Promise.reject('Owner does not exist.');
-		}
-
-		return Promise.reject('Invalid data type.');
-	}),
+	body('owner_id').optional().custom(ownerIdValidator),
 ];
 
 /**
