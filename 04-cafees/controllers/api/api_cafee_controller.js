@@ -137,6 +137,11 @@ const update = async (req, res) => {
 	// 2. extract valid data
 	const validData = matchedData(req);
 
+	// TEMPORARY JUST BAIL
+	console.log("validData:", validData);
+	res.send({validData});
+	return;
+
 	// 3. check that we actually have any data to try to update
 	if (!Object.keys(validData).length) {
 		res.status(400).send({ error: 'No data.' });

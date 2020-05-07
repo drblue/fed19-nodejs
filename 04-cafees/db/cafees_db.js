@@ -1,4 +1,5 @@
 const { body } = require('express-validator');
+const categories = require('./categories_db');
 const owners = require('./owners_db');
 
 /**
@@ -55,6 +56,24 @@ const updateValidationRules = [
 	body('address').optional().trim().isLength({ min: 3 }),
 	body('city').optional().trim().isLength({ min: 3 }),
 	body('owner_id').optional().custom(ownerIdValidator),
+	body('categories').optional().isArray().custom(async values => {
+		// bail if element value is not a number
+		if (!values.every(Number.isInteger)) {
+			return Promise.reject('Invalid value in array.');
+		}
+
+		// validate that every value exists in database
+		for (let i = 0; i < values.length; i++) {
+			const category = await categories.get(values[i]);
+
+			if (!category) {
+				return Promise.reject(`Category ${values[i]} does not exist.`);
+			}
+		}
+
+		// otherwise resolve promise if all is well
+		console.log("Categories seems legit!");
+	}),
 ];
 
 /**
