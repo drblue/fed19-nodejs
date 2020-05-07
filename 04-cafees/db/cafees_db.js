@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const { body } = require('express-validator');
 const categories = require('./categories_db');
 const owners = require('./owners_db');
@@ -147,6 +148,42 @@ const update = (cafeId, data) => {
 }
 
 /**
+ * Update café categories in db
+ */
+const updateCategories = async (cafeId, categories) => {
+	// 1. Delete all (potentially) existing category-links for this café.
+	// SQL: DELETE FROM cafee_category WHERE cafee_id = cafeId
+	await getDbConnection()
+		.table('cafee_category')
+		.where('cafee_id', cafeId)
+		.del();
+
+	// 1.5. Return if café should not have any categories.
+	if (!categories.length) {
+		return;
+	}
+
+	// 2. Transform array with category-ids into compaible format
+	// [1,2] => [{ cafee_id: 23, category_id: 1 }, { cafee_id: 23, category_id: 2 }]
+	// const uniqueCategories = [...new Set(categories)];
+	const data = _.uniq(categories).map(category_id => {
+		return {
+			cafee_id: cafeId,
+			category_id,
+		}
+	});
+
+	// 3. Create category-links for this café.
+	// SQL: INSERT INTO cafee_category SET cafee_id = 23, category_id = 1
+	// SQL: INSERT INTO cafee_category SET cafee_id = 23, category_id = 2
+	return getDbConnection()
+		.insert(data)
+		.into('cafee_category');
+
+	// 4. Profit 💰.
+}
+
+/**
  * Delete café in db
  */
 const destroy = (cafeId) => {
@@ -166,5 +203,6 @@ module.exports = {
 	get,
 	store,
 	update,
+	updateCategories,
 	destroy,
 }
