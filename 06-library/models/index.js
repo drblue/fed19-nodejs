@@ -11,3 +11,29 @@ const sequelize = new Sequelize(
 	}
 );
 
+class Author extends Sequelize.Model {}
+Author.init({
+	first_name: Sequelize.STRING,
+	last_name: Sequelize.STRING,
+	birthyear: Sequelize.INTEGER,
+}, {
+	sequelize,
+	modelName: 'authors',
+});
+
+class Book extends Sequelize.Model {}
+Book.init({
+	title: Sequelize.STRING,
+	isbn: Sequelize.STRING,
+	pages: Sequelize.INTEGER,
+	author_id: Sequelize.INTEGER,
+}, {
+	sequelize,
+	modelName: 'books',
+});
+
+module.exports = {
+	sequelize,
+	Author,
+	Book,
+}
