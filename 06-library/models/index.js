@@ -24,10 +24,21 @@ const Book = bookshelf.model('Book', {
 	author() {
 		return this.belongsTo('Author');   // books.author_id = 3   ->   authors.id = 3 (single author)
 	},
+	users() {
+		return this.belongsToMany('User');
+	}
+});
+
+const User = bookshelf.model('User', {
+	tableName: 'users',
+	books() {
+		return this.belongsToMany('Book');
+	}
 });
 
 module.exports = {
 	bookshelf,
 	Author,
 	Book,
+	User,
 };

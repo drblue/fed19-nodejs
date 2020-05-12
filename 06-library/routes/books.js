@@ -17,7 +17,7 @@ router.get('/', async (req, res) => {
 
 /* GET /:bookId */
 router.get('/:bookId', async (req, res) => {
-	const book = await new models.Book({ id: req.params.bookId }).fetch({ withRelated: 'author' });    // select * from books where id = 1
+	const book = await new models.Book({ id: req.params.bookId }).fetch({ withRelated: ['author', 'users'] });    // select * from books where id = 1
 	// const book = await models.Book.findByPk(req.params.bookId);
 
 	res.send({
