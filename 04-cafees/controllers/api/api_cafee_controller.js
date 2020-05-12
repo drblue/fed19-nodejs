@@ -44,6 +44,13 @@ const store = async (req, res) => {
 	// 2. extract valid data
 	const validData = matchedData(req);
 
+	// 3. extract categories (if any)
+	let categories = false;
+	if (validData.categories) {
+		categories = validData.categories;
+		delete validData.categories;
+	}
+
 	try {
 		// 3. insert valid data into database
 		const result = await cafees.store(validData);
@@ -56,6 +63,9 @@ const store = async (req, res) => {
 		}
 
 		const cafeeId = result[0];
+		if (categories) {
+			await cafees.updateCategories(cafeeId, categories);
+		}
 		const cafee = await cafees.get(cafeeId);
 
 		res.send({
