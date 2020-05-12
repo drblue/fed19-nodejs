@@ -14,10 +14,16 @@ const bookshelf = require('bookshelf')(knex);
 
 const Author = bookshelf.model('Author', {
 	tableName: 'authors',
+	books() {
+		return this.hasMany('Book');
+	},
 });
 
 const Book = bookshelf.model('Book', {
 	tableName: 'books',
+	author() {
+		return this.belongsTo('Author');   // books.author_id = 3   ->   authors.id = 3 (single author)
+	},
 });
 
 module.exports = {

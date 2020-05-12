@@ -4,7 +4,8 @@ const models = require('../models');
 
 /* GET / */
 router.get('/', async (req, res) => {
-	const all_books = await models.Book.fetchAll();
+	// const all_books = await models.Book.fetchAll();
+	const all_books = await new models.Book({}).fetchAll();
 
 	res.send({
 		status: 'success',
@@ -16,7 +17,8 @@ router.get('/', async (req, res) => {
 
 /* GET /:bookId */
 router.get('/:bookId', async (req, res) => {
-	const book = await new models.Book({ id: req.params.bookId }).fetch();    // select * from books where id = 1
+	const book = await new models.Book({ id: req.params.bookId }).fetch({ withRelated: 'author' });    // select * from books where id = 1
+	// const book = await models.Book.findByPk(req.params.bookId);
 
 	res.send({
 		status: 'success',
