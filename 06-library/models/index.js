@@ -12,13 +12,12 @@ const knex = require('knex')({
 
 const bookshelf = require('bookshelf')(knex);
 
-const Author = require('./Author')(bookshelf);
-const Book = require('./Book')(bookshelf);
-const User = require('./User')(bookshelf);
+const models = {};
+models.Author = require('./Author')(bookshelf);
+models.Book = require('./Book')(bookshelf);
+models.User = require('./User')(bookshelf);
 
 module.exports = {
 	bookshelf,
-	Author,
-	Book,
-	User,
+	...models,
 };
