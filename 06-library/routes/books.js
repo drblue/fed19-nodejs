@@ -1,31 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const models = require('../models');
+const bookController = require('../controllers/book_controller');
 
-/* GET / */
-router.get('/', async (req, res) => {
-	// const all_books = await models.Book.fetchAll();
-	const all_books = await new models.Book({}).fetchAll();
+/* Get all resources */
+router.get('/', bookController.index);
 
-	res.send({
-		status: 'success',
-		data: {
-			books: all_books
-		}
-	});
-});
+/* Get a specific resource */
+router.get('/:bookId', bookController.show);
 
-/* GET /:bookId */
-router.get('/:bookId', async (req, res) => {
-	const book = await new models.Book({ id: req.params.bookId }).fetch({ withRelated: ['author', 'users'] });    // select * from books where id = 1
-	// const book = await models.Book.findByPk(req.params.bookId);
+/* Store a new resource */
+router.post('/', bookController.store);
 
-	res.send({
-		status: 'success',
-		data: {
-			book,
-		}
-	});
-});
+/* Update a specific resource */
+router.put('/', bookController.update);
+
+/* Destroy a specific resource */
+router.delete('/', bookController.destroy);
 
 module.exports = router;
