@@ -12,9 +12,9 @@ router.get('/:bookId', bookController.show);
 router.post('/', bookController.store);
 
 /* Update a specific resource */
-router.put('/', bookController.update);
+router.put('/:bookId', bookController.update);
 
 /* Destroy a specific resource */
-router.delete('/', bookController.destroy);
+router.delete('/:bookId', bookController.destroy);
 
 module.exports = router;

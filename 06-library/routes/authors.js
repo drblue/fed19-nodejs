@@ -12,9 +12,9 @@ router.get('/:authorId', authorController.show);
 router.post('/', authorController.store);
 
 /* Update a specific resource */
-router.put('/', authorController.update);
+router.put('/:authorId', authorController.update);
 
 /* Destroy a specific resource */
-router.delete('/', authorController.destroy);
+router.delete('/:authorId', authorController.destroy);
 
 module.exports = router;

@@ -13,9 +13,9 @@ router.get('/:userId', userController.show);
 router.post('/', userValidationRules.createRules, userController.store);
 
 /* Update a specific resource */
-router.put('/', userValidationRules.updateRules, userController.update);
+router.put('/:userId', userValidationRules.updateRules, userController.update);
 
 /* Destroy a specific resource */
-router.delete('/', userController.destroy);
+router.delete('/:userId', userController.destroy);
 
 module.exports = router;
