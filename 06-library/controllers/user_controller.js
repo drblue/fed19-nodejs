@@ -43,6 +43,8 @@ const show = async (req, res) => {
  * POST /
  */
 const store = (req, res) => {
+	console.log('req.body', req.body);
+
 	res.status(405).send({
 		status: 'fail',
 		message: 'Method Not Allowed.',

@@ -12,29 +12,9 @@ const knex = require('knex')({
 
 const bookshelf = require('bookshelf')(knex);
 
-const Author = bookshelf.model('Author', {
-	tableName: 'authors',
-	books() {
-		return this.hasMany('Book');
-	},
-});
-
-const Book = bookshelf.model('Book', {
-	tableName: 'books',
-	author() {
-		return this.belongsTo('Author');   // books.author_id = 3   ->   authors.id = 3 (single author)
-	},
-	users() {
-		return this.belongsToMany('User');
-	}
-});
-
-const User = bookshelf.model('User', {
-	tableName: 'users',
-	books() {
-		return this.belongsToMany('Book');
-	}
-});
+const Author = require('./Author')(bookshelf);
+const Book = require('./Book')(bookshelf);
+const User = require('./User')(bookshelf);
 
 module.exports = {
 	bookshelf,
