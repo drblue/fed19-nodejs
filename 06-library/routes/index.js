@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
 	res.send({ status: 'you had me at EHLO' });
 });
 
+router.use('/authors', require('./authors'));
 router.use('/books', require('./books'));
 
 module.exports = router;
