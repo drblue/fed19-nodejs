@@ -8,5 +8,7 @@ module.exports = (bookshelf) => {
 		books() {
 			return this.belongsToMany('Book');
 		}
+	}, {
+		hashSaltRounds: 10,
 	});
 };

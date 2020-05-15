@@ -2,6 +2,7 @@
  * User Controller
  */
 
+const bcrypt = require('bcrypt');
 const { matchedData, validationResult } = require('express-validator');
 const models = require('../models');
 
@@ -56,6 +57,19 @@ const store = async (req, res) => {
 	}
 
 	const validData = matchedData(req);
+
+	// generate a hash of `validData.password`
+	try {
+		validData.password = await bcrypt.hash(validData.password, models.User.hashSaltRounds); // hash.salt is returned from bcrypt.hash()
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown when hashing the password.',
+		});
+		throw error;
+	}
+
 	try {
 		const user = await new models.User(validData).save();
 		console.log("Created new user successfully:", user);
