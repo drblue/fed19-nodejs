@@ -27,7 +27,7 @@ const basic = async (req, res, next) => {
 		next();
 	}
 
-	const decodedPayload = new Buffer(base64Payload, 'base64').toString('ascii');
+	const decodedPayload = Buffer.from(base64Payload, 'base64').toString('ascii');
 
 	// kalle:omg-food
 	const [username, password] = decodedPayload.split(':');
