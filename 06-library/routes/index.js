@@ -7,11 +7,9 @@ router.get('/', (req, res) => {
 	res.send({ status: 'you had me at EHLO' });
 });
 
-// Protect all routes below with the middleware `basic` from the `auth` module.
-router.use(auth.basic);
-
 router.use('/authors', require('./authors'));
 router.use('/books', require('./books'));
-router.use('/users', require('./users'));
+router.use('/profile', [auth.basic], require('./profile'));
+// router.use('/users', require('./users'));
 
 module.exports = router;

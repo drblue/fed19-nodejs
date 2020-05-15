@@ -22,7 +22,7 @@ const basic = async (req, res, next) => {
 	// [1] = "a2FsbGUyMDAwOnNjcmlwdC1raWRxd2Vxd2Vxd2Vxd2Vxd2Vxd2Vxd2U="
 	const [authSchema, base64Payload] = req.headers.authorization.split(' ');
 
-	if (!authSchema.toLowerCase() === "basic") {
+	if (authSchema.toLowerCase() !== "basic") {
 		// not ours to authenticate
 		next();
 	}
