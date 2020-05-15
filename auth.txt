@@ -1,0 +1,27 @@
+Autentisering == Authentication
+(Identitetskontroll: kontroll (verifiering) av uppgiven identitet)
+användarnamn + lösenord
+
+Auktorisering == Authorization
+(behörighet)
+
+
+Authorization = AUTH
+    - Authentication = AUTH
+    - Behörighet
+
+
+Johan
+Ta ut 500 kr från konto 4.1.8.9 => DENIED! 👮
+Ta ut 500 kr från konto 1.4.5.7 => APPROVED! 🆗
+
+Johans konton
+1.4.5.7
+
+
+Bertil
+Ta ut 500 kr från konto 4.1.8.9 => APPROVED! 🆗
+Ta ut 500 kr från konto 1.4.5.7 => DENIED! 👮
+
+Bertils konton
+4.1.8.9

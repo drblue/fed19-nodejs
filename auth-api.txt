@@ -1,0 +1,43 @@
+RESTful API
+
+REpresentational
+State
+Transfer
+
+
+
+API
+
+POST /login      (server1)
+{
+    "username": "kalle",
+    "password": "quack"
+}
+
+0123456789abcdef0123456789abcdef      { id: 4 }
+
+
+GET /books       (server2)
+
+
+Stateful API
+
+
+Stateless REST API
+
+GET server1.myapi.com/books
+username password
+
+GET server2.myapi.com/books
+username password
+
+
+HTTP Basic Authentication
+
+
+> GET /books
+> 
+
+< Content-Type: application/json
+< Content-Length: 583
+< Server: node/12.3 express/5.2
