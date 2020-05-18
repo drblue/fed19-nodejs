@@ -27,7 +27,7 @@ const index = async (req, res) => {
  */
 const show = async (req, res) => {
 	const book = await new models.Book({ id: req.params.bookId })
-		.fetch({ withRelated: ['author', 'users'] });
+		.fetch({ withRelated: ['author'] });
 
 	res.send({
 		status: 'success',
