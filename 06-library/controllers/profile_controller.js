@@ -2,6 +2,7 @@
  * Profile Controller
  */
 
+const bcrypt = require('bcrypt');
 const { matchedData, validationResult } = require('express-validator');
 const { User } = require('../models');
 
@@ -79,6 +80,20 @@ const updateProfile = async (req, res) => {
 	}
 
 	const validData = matchedData(req);
+
+	// if request contains password, hash it
+	if (validData.password) {
+		try {
+			validData.password = await bcrypt.hash(validData.password, User.hashSaltRounds)
+		} catch (err) {
+			res.status(500).send({
+				status: 'error',
+				message: 'Exception thrown when hashing the password.',
+			});
+			throw error;
+		}
+	}
+
 	try {
 		const updatedUser = await req.user.save(validData);
 
