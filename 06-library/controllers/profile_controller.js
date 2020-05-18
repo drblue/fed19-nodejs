@@ -42,9 +42,8 @@ const getBooks = async (req, res) => {
 	}
 
 	// query db for books this user has
-	const userId = req.user.get('id');
-	const user = await new User({ id: userId }).fetch({ withRelated: 'books' });
-	const books = user.related('books');
+	await req.user.load('books');
+	const books = req.user.related('books');
 
 	res.send({
 		status: 'success',
