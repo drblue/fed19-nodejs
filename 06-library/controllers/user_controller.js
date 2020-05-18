@@ -122,12 +122,11 @@ const update = async (req, res) => {
 	const validData = matchedData(req);
 	try {
 		const updatedUser = await user.save(validData);
-		console.log("Updated user successfully:", updatedUser);
 
 		res.send({
 			status: 'success',
 			data: {
-				user,
+				user: updatedUser,
 			},
 		});
 
