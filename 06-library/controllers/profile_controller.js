@@ -3,7 +3,7 @@
  */
 
 const { matchedData, validationResult } = require('express-validator');
-const models = require('../models');
+const { User } = require('../models');
 
 /**
  * Get authenticated user's profile
@@ -33,9 +33,24 @@ const getProfile = async (req, res) => {
  * GET /books
  */
 const getBooks = async (req, res) => {
-	res.status(405).send({
-		status: 'error',
-		message: 'This is a workshop.',
+	if (!req.user) {
+		res.status(401).send({
+			status: 'fail',
+			data: 'Authentication Required.',
+		});
+		return;
+	}
+
+	// query db for books this user has
+	const userId = req.user.get('id');
+	const user = await new User({ id: userId }).fetch({ withRelated: 'books' });
+	const books = user.related('books');
+
+	res.send({
+		status: 'success',
+		data: {
+			books,
+		},
 	});
 }
 
