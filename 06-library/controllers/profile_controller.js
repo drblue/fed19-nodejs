@@ -59,10 +59,43 @@ const getBooks = async (req, res) => {
  * PUT /
  */
 const updateProfile = async (req, res) => {
-	res.status(405).send({
-		status: 'error',
-		message: 'This is also a workshop.',
-	});
+	if (!req.user) {
+		res.status(401).send({
+			status: 'fail',
+			data: 'Authentication Required.',
+		});
+		return;
+	}
+
+	// Finds the validation errors in this request and wraps them in an object with handy functions
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log("Update profile request failed validation:", errors.array());
+		res.status(422).send({
+			status: 'fail',
+			data: errors.array(),
+		});
+		return;
+	}
+
+	const validData = matchedData(req);
+	try {
+		const updatedUser = await req.user.save(validData);
+
+		res.send({
+			status: 'success',
+			data: {
+				user: updatedUser,
+			},
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown in database when updating profile.',
+		});
+		throw error;
+	}
 }
 
 module.exports = {
