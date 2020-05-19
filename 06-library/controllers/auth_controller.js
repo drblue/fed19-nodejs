@@ -22,9 +22,11 @@ const login = async (req, res) => {
 
 	// construct jwt payload
 	const payload = {
-		sub: user.get('id'),
-		username: user.get('username'),
-		is_admin: user.get('is_admin'),
+		data: {
+			id: user.get('id'),
+			username: user.get('username'),
+			is_admin: user.get('is_admin'),
+		},
 	};
 
 	// sign payload and get access-token
@@ -59,9 +61,12 @@ const refresh = (req, res) => {
 
 	try {
 		// verify token using the refresh token secret
-		const payload = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
-		delete payload.iat; // issued at time
-		delete payload.exp; // expires at time
+		const { data } = jwt.verify(token, process.env.REFRESH_TOKEN_SECRET);
+
+		// construct new payload
+		const payload = {
+			data,
+		}
 
 		// issue a new token using the access token secret
 		const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_LIFETIME || '1h' });

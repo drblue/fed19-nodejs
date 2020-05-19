@@ -16,7 +16,7 @@ const getProfile = async (req, res) => {
 	// retrieve authenticated user's profile
 	let user = null;
 	try {
-		user = await User.fetchById(req.user.sub);
+		user = await User.fetchById(req.user.data.id);
 	} catch (err) {
 		res.sendStatus(404);
 		throw err;
@@ -44,7 +44,7 @@ const getBooks = async (req, res) => {
 	// query db for user and eager load the books relation
 	let user = null;
 	try {
-		user = await User.fetchById(req.user.sub, { withRelated: 'books' });
+		user = await User.fetchById(req.user.data.id, { withRelated: 'books' });
 	} catch (err) {
 		console.error(err);
 		res.sendStatus(404);
@@ -71,7 +71,7 @@ const updateProfile = async (req, res) => {
 	// query db for user
 	let user = null;
 	try {
-		user = await User.fetchById(req.user.sub);
+		user = await User.fetchById(req.user.data.id);
 	} catch (err) {
 		console.error(err);
 		res.sendStatus(404);
