@@ -3,6 +3,7 @@
  */
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 const { matchedData, validationResult } = require('express-validator');
 const { User } = require('../models');
 
@@ -12,7 +13,8 @@ const { User } = require('../models');
  * GET /
  */
 const getProfile = async (req, res) => {
-	if (!req.user) {
+	// Check that we have Authorization header
+	if (!req.headers.authorization) {
 		res.status(401).send({
 			status: 'fail',
 			data: 'Authentication Required.',
@@ -20,13 +22,69 @@ const getProfile = async (req, res) => {
 		return;
 	}
 
+	// Split authorization header into its pieces
+	// "Bearer eyJhbGciOi[..]JtbLU"
+	const [authType, token] = req.headers.authorization.split(' ');
+
+	// Check that the Authorization type is Bearer
+	if (authType.toLowerCase() !== "bearer") {
+		res.status(401).send({
+			status: 'fail',
+			data: 'Authentication Required.',
+		});
+		return;
+	}
+
+	// Validate token and extract payload
+	let payload = null;
+
+	try {
+		payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+	} catch (err) {
+		res.status(403).send({
+			status: 'fail',
+			data: 'Authentication Failed.',
+		});
+		throw err;
+	}
+
+	// retrieve authenticated user's profile
+	let user = null;
+	try {
+		user = await new User({ id: payload.sub }).fetch();
+	} catch (err) {
+		res.sendStatus(404);
+		throw err;
+	}
+
+	// send (parts of) user profile to requester
 	res.send({
 		status: 'success',
 		data: {
-			user: req.user,
+			user: {
+				username: user.get('username'),
+				first_name: user.get('first_name'),
+				last_name: user.get('last_name'),
+			},
 		}
 	});
 }
+// const getProfile = async (req, res) => {
+// 	if (!req.user) {
+// 		res.status(401).send({
+// 			status: 'fail',
+// 			data: 'Authentication Required.',
+// 		});
+// 		return;
+// 	}
+
+// 	res.send({
+// 		status: 'success',
+// 		data: {
+// 			user: req.user,
+// 		}
+// 	});
+// }
 
 /**
  * Get the authenticated user's books
