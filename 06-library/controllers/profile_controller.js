@@ -16,7 +16,7 @@ const getProfile = async (req, res) => {
 	// retrieve authenticated user's profile
 	let user = null;
 	try {
-		user = await new User({ id: req.user.sub }).fetch();
+		user = await User.fetchById(req.user.sub);
 	} catch (err) {
 		res.sendStatus(404);
 		throw err;
@@ -44,7 +44,7 @@ const getBooks = async (req, res) => {
 	// query db for user and eager load the books relation
 	let user = null;
 	try {
-		user = await new User({ id: req.user.sub }).fetch({ withRelated: 'books' });
+		user = await User.fetchById(req.user.sub, { withRelated: 'books' });
 	} catch (err) {
 		console.error(err);
 		res.sendStatus(404);
