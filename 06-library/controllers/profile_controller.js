@@ -68,11 +68,13 @@ const getBooks = async (req, res) => {
  * PUT /
  */
 const updateProfile = async (req, res) => {
-	if (!req.user) {
-		res.status(401).send({
-			status: 'fail',
-			data: 'Authentication Required.',
-		});
+	// query db for user
+	let user = null;
+	try {
+		user = await User.fetchById(req.user.sub);
+	} catch (err) {
+		console.error(err);
+		res.sendStatus(404);
 		return;
 	}
 
@@ -103,14 +105,8 @@ const updateProfile = async (req, res) => {
 	}
 
 	try {
-		const updatedUser = await req.user.save(validData);
-
-		res.send({
-			status: 'success',
-			data: {
-				user: updatedUser,
-			},
-		});
+		await user.save(validData);
+		res.sendStatus(204); // Successfully processed request but returned no content
 
 	} catch (error) {
 		res.status(500).send({
