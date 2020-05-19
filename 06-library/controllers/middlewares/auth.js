@@ -2,6 +2,7 @@
  * Authentication middleware
  */
 
+const jwt = require('jsonwebtoken');
 const { User } = require('../../models');
 
 const basic = async (req, res, next) => {
@@ -46,6 +47,48 @@ const basic = async (req, res, next) => {
 	next();
 }
 
+const validateJwtToken = (req, res, next) => {
+	// Check that we have Authorization header
+	if (!req.headers.authorization) {
+		res.status(401).send({
+			status: 'fail',
+			data: 'Authentication Required.',
+		});
+		return;
+	}
+
+	// Split authorization header into its pieces
+	// "Bearer eyJhbGciOi[..]JtbLU"
+	const [authType, token] = req.headers.authorization.split(' ');
+
+	// Check that the Authorization type is Bearer
+	if (authType.toLowerCase() !== "bearer") {
+		res.status(401).send({
+			status: 'fail',
+			data: 'Authentication Required.',
+		});
+		return;
+	}
+
+	// Validate token and extract payload
+	let payload = null;
+	try {
+		payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+	} catch (err) {
+		res.status(403).send({
+			status: 'fail',
+			data: 'Authentication Failed.',
+		});
+		throw err;
+	}
+
+	// attach payload to req.user
+	req.user = payload;
+
+	next();
+}
+
 module.exports = {
 	basic,
+	validateJwtToken,
 }

@@ -14,7 +14,7 @@ router.use('/books', require('./books'));
 router.post('/login', require('../controllers/login_controller'));
 
 // add ability to validate JWT's
-router.use('/profile', require('./profile'));
+router.use('/profile', [auth.validateJwtToken], require('./profile'));
 
 router.use('/users', require('./users'));
 
