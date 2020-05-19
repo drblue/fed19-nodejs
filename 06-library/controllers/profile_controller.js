@@ -34,22 +34,6 @@ const getProfile = async (req, res) => {
 		}
 	});
 }
-// const getProfile = async (req, res) => {
-// 	if (!req.user) {
-// 		res.status(401).send({
-// 			status: 'fail',
-// 			data: 'Authentication Required.',
-// 		});
-// 		return;
-// 	}
-
-// 	res.send({
-// 		status: 'success',
-// 		data: {
-// 			user: req.user,
-// 		}
-// 	});
-// }
 
 /**
  * Get the authenticated user's books
@@ -57,17 +41,18 @@ const getProfile = async (req, res) => {
  * GET /books
  */
 const getBooks = async (req, res) => {
-	if (!req.user) {
-		res.status(401).send({
-			status: 'fail',
-			data: 'Authentication Required.',
-		});
+	// query db for user and eager load the books relation
+	let user = null;
+	try {
+		user = await new User({ id: req.user.sub }).fetch({ withRelated: 'books' });
+	} catch (err) {
+		console.error(err);
+		res.sendStatus(404);
 		return;
 	}
 
-	// query db for books this user has
-	await req.user.load('books');
-	const books = req.user.related('books');
+	// get this user's books
+	const books = user.related('books');
 
 	res.send({
 		status: 'success',
