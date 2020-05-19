@@ -3,6 +3,7 @@
  */
 
 const jwt = require('jsonwebtoken');
+const { getTokenFromHeaders } = require('../auth_controller');
 const { User } = require('../../models');
 
 const basic = async (req, res, next) => {
@@ -48,24 +49,11 @@ const basic = async (req, res, next) => {
 }
 
 const validateJwtToken = (req, res, next) => {
-	// Check that we have Authorization header
-	if (!req.headers.authorization) {
+	const token = getTokenFromHeaders(req);
+	if (!token) {
 		res.status(401).send({
 			status: 'fail',
-			data: 'Authentication Required.',
-		});
-		return;
-	}
-
-	// Split authorization header into its pieces
-	// "Bearer eyJhbGciOi[..]JtbLU"
-	const [authType, token] = req.headers.authorization.split(' ');
-
-	// Check that the Authorization type is Bearer
-	if (authType.toLowerCase() !== "bearer") {
-		res.status(401).send({
-			status: 'fail',
-			data: 'Authentication Required.',
+			data: 'No token found in request headers.',
 		});
 		return;
 	}
