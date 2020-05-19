@@ -3,9 +3,11 @@
  */
 
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
 
 module.exports = async (req, res) => {
-	if (!req.user) {
+	const user = await User.login(req.body.username, req.body.password);
+	if (!user) {
 		res.status(401).send({
 			status: 'fail',
 			data: 'Authentication Required.',
@@ -15,9 +17,9 @@ module.exports = async (req, res) => {
 
 	// construct jwt payload
 	const payload = {
-		sub: req.user.get('id'),
-		username: req.user.get('username'),
-		is_admin: req.user.get('is_admin'),
+		sub: user.get('id'),
+		username: user.get('username'),
+		is_admin: user.get('is_admin'),
 	};
 
 	// sign payload and get jwt-token
