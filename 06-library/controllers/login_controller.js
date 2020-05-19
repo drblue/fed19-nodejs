@@ -22,13 +22,17 @@ module.exports = async (req, res) => {
 		is_admin: user.get('is_admin'),
 	};
 
-	// sign payload and get jwt-token
-	const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
+	// sign payload and get access-token
+	const access_token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: process.env.ACCESS_TOKEN_LIFETIME || '1h' });
+
+	// sign payload and get refresh-token
+	const refresh_token = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: process.env.REFRESH_TOKEN_LIFETIME || '1w' });
 
 	res.send({
 		status: 'success',
 		data: {
-			token,
+			access_token,
+			refresh_token,
 		},
 	});
 }
