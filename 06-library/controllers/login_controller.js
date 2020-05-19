@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
 	};
 
 	// sign payload and get jwt-token
-	const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+	const token = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30s' });
 
 	res.send({
 		status: 'success',
