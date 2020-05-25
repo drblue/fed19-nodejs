@@ -63,6 +63,31 @@ const getBooks = async (req, res) => {
 }
 
 /**
+ * Add a book to the authenticated user's collection
+ *
+ * POST /books
+ * {
+ *   "book_id": 4
+ * }
+ */
+const addBook = async (req, res) => {
+	// 0. get book id to add (req.body.book_id)
+
+	// 1. make sure book we want to add actually exists
+
+	// 2. attach book to user (create a row in books_users for this book and user)
+
+	// 2.1. fetch User model
+
+	// 2.2. on User model, call attach() on the books() relation and pass the Book model
+
+	// 2.3. Profit?
+
+	// 3. return 201 Created if successful
+	res.sendStatus(500).send({ status: 'error', message: 'Not Implemented.' });
+}
+
+/**
  * Update the authenticated user's profile
  *
  * PUT /
@@ -120,5 +145,6 @@ const updateProfile = async (req, res) => {
 module.exports = {
 	getProfile,
 	getBooks,
+	addBook,
 	updateProfile,
 }
