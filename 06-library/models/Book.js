@@ -11,5 +11,9 @@ module.exports = (bookshelf) => {
 		users() {
 			return this.belongsToMany('User');
 		}
+	}, {
+		fetchById(id, fetchOptions = {}) {
+			return new this({ id }).fetch(fetchOptions);
+		},
 	});
 }

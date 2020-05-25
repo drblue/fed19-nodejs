@@ -5,7 +5,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { matchedData, validationResult } = require('express-validator');
-const { User } = require('../models');
+const { Book, User } = require('../models');
 
 /**
  * Get authenticated user's profile
@@ -73,18 +73,31 @@ const getBooks = async (req, res) => {
 const addBook = async (req, res) => {
 	// 0. get book id to add (req.body.book_id)
 
-	// 1. make sure book we want to add actually exists
+	try {
+		// 1. make sure book we want to add actually exists
+		const book = await Book.fetchById(req.body.book_id);
 
-	// 2. attach book to user (create a row in books_users for this book and user)
+		// 2. attach book to user (create a row in books_users for this book and user)
 
-	// 2.1. fetch User model
+		// 2.1. fetch User model
+		const user = await User.fetchById(req.user.data.id);
 
-	// 2.2. on User model, call attach() on the books() relation and pass the Book model
+		// 2.2. on User model, call attach() on the books() relation and pass the Book model
+		const result = await user.books().attach(book);
 
-	// 2.3. Profit?
+		// 2.3. Profit?
+		res.status(201).send({
+			status: 'success',
+			data: result,
+		});
 
-	// 3. return 201 Created if successful
-	res.sendStatus(500).send({ status: 'error', message: 'Not Implemented.' });
+	} catch (err) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown when trying to add book to profile.',
+		});
+		throw error;
+	}
 }
 
 /**
