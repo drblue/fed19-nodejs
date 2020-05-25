@@ -44,6 +44,7 @@ const basic = async (req, res, next) => {
 	// now that we have authenticated the user and know that he/she/it is who it claims to be
 	// attach the user object to the request, so that other parts of the api can use the user
 	req.user = user;
+	req.user.data = { id: user.get('id') }
 
 	next();
 }
