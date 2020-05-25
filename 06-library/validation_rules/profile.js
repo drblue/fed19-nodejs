@@ -3,6 +3,11 @@
  */
 
 const { body } = require('express-validator');
+const { Book } = require('../models');
+
+const addBookRules = [
+	body('book_id').custom(value => Book.fetchById(value)),
+];
 
 const updateProfileRules = [
 	body('password').optional().isLength({ min: 3 }),
@@ -11,5 +16,6 @@ const updateProfileRules = [
 ];
 
 module.exports = {
+	addBookRules,
 	updateProfileRules,
 }

@@ -71,10 +71,19 @@ const getBooks = async (req, res) => {
  * }
  */
 const addBook = async (req, res) => {
-	// 0. get book id to add (req.body.book_id)
+	// Finds the validation errors in this request and wraps them in an object with handy functions
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		console.log("Add book to profile request failed validation:", errors.array());
+		res.status(422).send({
+			status: 'fail',
+			data: errors.array(),
+		});
+		return;
+	}
 
 	try {
-		// 1. make sure book we want to add actually exists
+		// 1. get book to attach
 		const book = await Book.fetchById(req.body.book_id);
 
 		// 2. attach book to user (create a row in books_users for this book and user)
@@ -91,7 +100,7 @@ const addBook = async (req, res) => {
 			data: result,
 		});
 
-	} catch (err) {
+	} catch (error) {
 		res.status(500).send({
 			status: 'error',
 			message: 'Exception thrown when trying to add book to profile.',

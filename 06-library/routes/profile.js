@@ -10,7 +10,7 @@ router.get('/', profileController.getProfile);
 router.get('/books', profileController.getBooks);
 
 /* Add a book to this user's collection */
-router.post('/books', profileController.addBook);
+router.post('/books', profileValidationRules.addBookRules, profileController.addBook);
 
 /* Update a specific resource */
 router.put('/', profileValidationRules.updateProfileRules, profileController.updateProfile);
