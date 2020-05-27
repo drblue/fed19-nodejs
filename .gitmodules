@@ -1,0 +1,3 @@
+[submodule "06-library"]
+	path = 06-library
+	url = git@github.com:drblue/fed19-nodejs-06-library.git
