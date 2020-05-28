@@ -2,6 +2,8 @@
  * Movie Controller
  */
 
+const models = require('../models');
+
 /**
  * Get all movies
  *
