@@ -56,7 +56,8 @@ const show = async (req, res) => {
 			message: error.message,
 		});
 		throw error;
-	}}
+	}
+}
 
 /**
  * Create a new movie
@@ -89,7 +90,28 @@ const store = async (req, res) => {
  * PUT /:movieId
  */
 const update = async (req, res) => {
-	res.status(405).send({ status: 'fail', message: 'Method Not Implemented.'});
+	try {
+		const movie = await models.Movie.findByIdAndUpdate(req.params.movieId, req.body, { new: true });
+
+		if (!movie) {
+			res.sendStatus(404);
+			return;
+		}
+
+		res.send({
+			status: 'success',
+			data: {
+				movie,
+			}
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: error.message,
+		});
+		throw error;
+	}
 }
 
 /**
