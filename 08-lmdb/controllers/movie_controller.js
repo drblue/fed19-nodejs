@@ -10,7 +10,24 @@ const models = require('../models');
  * GET /
  */
 const index = async (req, res) => {
-	res.status(405).send({ status: 'fail', message: 'Method Not Implemented.'});
+	try {
+		// const movie = await new models.Movie(req.body).save();
+		const movies = await models.Movie.find();
+
+		res.send({
+			status: 'success',
+			data: {
+				movies,
+			}
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown when trying to get all movies.',
+		});
+		throw error;
+	}
 }
 
 /**
