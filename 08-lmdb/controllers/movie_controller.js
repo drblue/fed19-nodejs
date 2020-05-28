@@ -28,7 +28,23 @@ const show = async (req, res) => {
  * POST /
  */
 const store = async (req, res) => {
-	res.status(405).send({ status: 'fail', message: 'Method Not Implemented.'});
+	try {
+		const movie = await new models.Movie(req.body).save();
+
+		res.status(201).send({
+			status: 'success',
+			data: {
+				movie,
+			}
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: 'Exception thrown when trying to create new movie.',
+		});
+		throw error;
+	}
 }
 
 /**
