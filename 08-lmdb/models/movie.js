@@ -11,13 +11,36 @@ const MovieSchema = new mongoose.Schema({
 		required: true,
 		trim: true,
 	},
+	original_title: {
+		type: String,
+		trim: true,
+	},
+	poster: {
+		type: String,
+		trim: true,
+	},
+	plot: {
+		type: String,
+		trim: true,
+	},
+	plot_keywords: [
+		{
+			type: String,
+			trim: true,
+			lowercase: true,
+		}
+	],
 	runtime: {
 		type: Number,
 		default: null,
 	},
-	releaseDate: {
+	release_date: {
 		type: Date,
 		default: Date.now(),
+	},
+	tagline: {
+		type: String,
+		default: null,
 	},
 	certification: String,
 });
