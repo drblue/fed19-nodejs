@@ -18,30 +18,11 @@ db.once('open', function() {
 });
 
 // Set up the models we want to use in our app
-
-// Movie Schema
-const MovieSchema = new mongoose.Schema({
-	title: {
-		type: String,
-		required: true,
-		trim: true,
-	},
-	runtime: {
-		type: Number,
-		default: null,
-	},
-	releaseDate: {
-		type: Date,
-		default: Date.now(),
-	},
-	certification: String,
-});
-
-// Movie Model
-const Movie = mongoose.model('Movie', MovieSchema);
+const models = {};
+models.Movie = require('./movie');
 
 // Export all the things
 module.exports = {
-	Movie,
 	mongoose,
+	...models,
 }
