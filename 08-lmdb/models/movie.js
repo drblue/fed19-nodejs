@@ -10,6 +10,7 @@ const MovieSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		trim: true,
+		minlength: 3,
 	},
 	original_title: {
 		type: String,
@@ -33,6 +34,10 @@ const MovieSchema = new mongoose.Schema({
 	runtime: {
 		type: Number,
 		default: null,
+		// min: 0,
+		validate(value) {
+			if (value < 0) throw new Error("Just because you thought the movie was bad, it shouldn't have a negative runtime.");
+		}
 	},
 	release_date: {
 		type: Date,
