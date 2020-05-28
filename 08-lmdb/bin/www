@@ -7,7 +7,7 @@
 require('dotenv').config();
 
 const app = require('../app');
-const debug = require('debug')('06-library:server');
+const debug = require('debug')('08-lmdb:server');
 const http = require('http');
 
 /**
