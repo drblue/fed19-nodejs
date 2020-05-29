@@ -19,6 +19,7 @@ db.once('open', function() {
 
 // Set up the models we want to use in our app
 const models = {};
+models.Genre = require('./genre');
 models.Movie = require('./movie');
 
 // Export all the things
