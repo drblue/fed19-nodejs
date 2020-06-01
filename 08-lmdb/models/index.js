@@ -22,6 +22,7 @@ db.once('open', function() {
 const models = {};
 models.Genre = require('./genre');
 models.Movie = require('./movie');
+models.Person = require('./person');
 
 // Export all the things
 module.exports = {
