@@ -2,6 +2,7 @@
  * Genre Controller
  */
 
+const debug = require('debug')('08-lmdb:genre-controller')
 const models = require('../models');
 
 /**
@@ -67,6 +68,7 @@ const show = async (req, res) => {
 const store = async (req, res) => {
 	try {
 		const genre = await new models.Genre(req.body).save();
+		debug('New genre created: %j', req.body);
 
 		res.status(201).send({
 			status: 'success',

@@ -2,6 +2,7 @@
  * Models
  */
 
+const debug = require('debug')('08-lmdb:models');
 const mongoose = require('mongoose');
 
 // Connect to database
@@ -14,7 +15,7 @@ const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
 	// we're connected!
-	console.log("We're connected to MongoDB Atlas! 🥳");
+	debug("We're connected to MongoDB Atlas! 🥳");
 });
 
 // Set up the models we want to use in our app

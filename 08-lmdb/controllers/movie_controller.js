@@ -2,6 +2,7 @@
  * Movie Controller
  */
 
+const debug = require('debug')('08-lmdb:movie-controller');
 const models = require('../models');
 
 /**
@@ -67,6 +68,7 @@ const show = async (req, res) => {
 const store = async (req, res) => {
 	try {
 		const movie = await new models.Movie(req.body).save();
+		debug('New movie created: %j', req.body);
 
 		res.status(201).send({
 			status: 'success',
