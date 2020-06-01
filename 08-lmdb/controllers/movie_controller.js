@@ -37,7 +37,10 @@ const index = async (req, res) => {
  */
 const show = async (req, res) => {
 	try {
-		const movie = await models.Movie.findById(req.params.movieId).populate('genres');
+		const movie = await models.Movie.findById(req.params.movieId)
+			.populate('actors')
+			.populate('director')
+			.populate('genres');
 
 		if (!movie) {
 			res.sendStatus(404);

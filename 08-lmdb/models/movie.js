@@ -55,6 +55,17 @@ const MovieSchema = new Schema({
 			ref: 'Genre',
 		}
 	],
+	actors: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Person',
+		}
+	],
+	director: {
+		type: Schema.Types.ObjectId,
+		ref: 'Person',
+		default: null,
+	},
 });
 
 // Declare Model
