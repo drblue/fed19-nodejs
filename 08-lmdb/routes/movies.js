@@ -10,21 +10,21 @@ const movieController = require('../controllers/movie_controller');
 router.get('/', movieController.index);
 
 /* Get a movie */
-router.get('/:movieId', movieController.show);
+router.get('/:movie', movieController.show);
 
 /* Create a new movie */
 router.post('/', movieController.store);
 
 /* Update a movie */
-router.put('/:movieId', movieController.update);
+router.put('/:movie', movieController.update);
 
 /* Delete a movie */
-router.delete('/:movieId', movieController.destroy);
+router.delete('/:movie', movieController.destroy);
 
 /* Add actors to a movie */
-router.post('/:movieId/actors', movieController.addActors);
+router.post('/:movie/actors', movieController.addActors);
 
 /* Delete an actor from a movie */
-router.delete('/:movieId/actors/:personId', movieController.removeActor);
+router.delete('/:movie/actors/:personId', movieController.removeActor);
 
 module.exports = router;

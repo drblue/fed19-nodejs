@@ -33,11 +33,11 @@ const index = async (req, res) => {
 /**
  * Get a movie
  *
- * GET /:movieId
+ * GET /:movie
  */
 const show = async (req, res) => {
 	try {
-		const movie = await models.Movie.findById(req.params.movieId)
+		const movie = await models.Movie.findOne(getMovieFilter(req.params.movie))
 			.populate('actors', 'name')
 			.populate('director', 'name')
 			.populate('genres');
@@ -92,11 +92,15 @@ const store = async (req, res) => {
 /**
  * Update a movie
  *
- * PUT /:movieId
+ * PUT /:movie
  */
 const update = async (req, res) => {
 	try {
-		const movie = await models.Movie.findByIdAndUpdate(req.params.movieId, req.body, { new: true });
+		const movie = await models.Movie.findOneAndUpdate(
+			getMovieFilter(req.params.movie),
+			req.body,
+			{ new: true }
+		);
 
 		if (!movie) {
 			res.sendStatus(404);
@@ -122,11 +126,11 @@ const update = async (req, res) => {
 /**
  * Delete a movie
  *
- * DELETE /:movieId
+ * DELETE /:movie
  */
 const destroy = async (req, res) => {
 	try {
-		const movie = await models.Movie.findByIdAndRemove(req.params.movieId);
+		const movie = await models.Movie.findOneAndRemove(getMovieFilter(req.params.movie));
 
 		if (!movie) {
 			res.sendStatus(404);
@@ -152,7 +156,7 @@ const destroy = async (req, res) => {
 /**
  * Add actors to a movie
  *
- * POST /:movieId/actors
+ * POST /:movie/actors
  * {
  *   "people": ["5ed4cd8d7543355d1767aa0f"]
  * }
@@ -192,7 +196,7 @@ const addActors = async (req, res) => {
 /**
  * Remove an actor from a movie
  *
- * DELETE /:movieId/actors/:personId
+ * DELETE /:movie/actors/:personId
  */
 const removeActor = async (req, res) => {
 	try {
@@ -223,6 +227,15 @@ const removeActor = async (req, res) => {
 			message: error.message,
 		});
 		throw error;
+	}
+}
+
+const getMovieFilter = movie => {
+	return {
+		$or: [
+			{ slug: movie },
+			{ _id: movie }
+		]
 	}
 }
 

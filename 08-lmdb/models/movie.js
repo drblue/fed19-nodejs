@@ -20,6 +20,8 @@ const MovieSchema = new Schema({
 	slug: {
 		type: String,
 		slug: 'title',
+		unique: true,
+		slug_padding_size: 1,
 	},
 	original_title: {
 		type: String,
