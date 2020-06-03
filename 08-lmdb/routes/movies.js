@@ -21,4 +21,10 @@ router.put('/:movieId', movieController.update);
 /* Delete a movie */
 router.delete('/:movieId', movieController.destroy);
 
+/* Add actors to a movie */
+router.post('/:movieId/actors', movieController.addActors);
+
+/* Delete an actor from a movie */
+router.delete('/:movieId/actors/:personId', movieController.removeActor);
+
 module.exports = router;

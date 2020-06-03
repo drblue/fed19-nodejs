@@ -149,10 +149,61 @@ const destroy = async (req, res) => {
 	}
 }
 
+/**
+ * Add actors to a movie
+ *
+ * POST /:movieId/actors
+ * {
+ *   "people": ["5ed4cd8d7543355d1767aa0f"]
+ * }
+ */
+const addActors = async (req, res) => {
+	try {
+		const people = req.body.people;
+
+		const data = {
+			$push: {
+				actors: people,
+			}
+		}
+		const movie = await models.Movie.findByIdAndUpdate(req.params.movieId, data, { new: true });
+
+		if (!movie) {
+			res.sendStatus(404);
+			return;
+		}
+
+		res.send({
+			status: 'success',
+			data: {
+				movie,
+			}
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: error.message,
+		});
+		throw error;
+	}
+}
+
+/**
+ * Remove an actor from a movie
+ *
+ * DELETE /:movieId/actors/:personId
+ */
+const removeActor = async (req, res) => {
+
+}
+
 module.exports = {
 	index,
 	show,
 	store,
 	update,
 	destroy,
+	addActors,
+	removeActor,
 }
