@@ -239,12 +239,9 @@ const removeActor = async (req, res) => {
 }
 
 const getMovieFilter = movie => {
-	return {
-		$or: [
-			{ slug: movie },
-			{ _id: movie }
-		]
-	}
+	return (/^[0-9a-fA-F]{24}$/.test(movie))
+		? { _id: movie }
+		: { slug: movie };
 }
 
 module.exports = {
