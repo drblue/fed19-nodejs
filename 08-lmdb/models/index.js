@@ -4,6 +4,7 @@
 
 const debug = require('debug')('08-lmdb:models');
 const mongoose = require('mongoose');
+mongoose.set('useCreateIndex', true);
 
 // Connect to database
 mongoose.connect(process.env.DB_CONNECTION, {
