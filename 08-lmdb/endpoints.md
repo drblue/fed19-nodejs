@@ -29,6 +29,22 @@ Update a movie by ID.
 
 Delete a movie by ID.
 
+## `/movies/:movieId/actors`
+
+### `POST /movies/:movieId/actors`
+
+```json
+{
+  "people": ["5ed762fdf18c3253c68c5c21"]
+}
+```
+
+Add people as actors to a movie. Does **not** overwrite existing actors.
+
+### `DELETE /movies/:movieId/actors/:personId`
+
+Remove a actor from a movie. Does **not** delete the person.
+
 ## `/genres`
 
 ### `GET /genres`
