@@ -195,7 +195,35 @@ const addActors = async (req, res) => {
  * DELETE /:movieId/actors/:personId
  */
 const removeActor = async (req, res) => {
+	try {
+		const personId = req.params.personId;
 
+		const data = {
+			$pull: {
+				actors: personId,
+			}
+		}
+		const movie = await models.Movie.findByIdAndUpdate(req.params.movieId, data, { new: true });
+
+		if (!movie) {
+			res.sendStatus(404);
+			return;
+		}
+
+		res.send({
+			status: 'success',
+			data: {
+				movie,
+			}
+		});
+
+	} catch (error) {
+		res.status(500).send({
+			status: 'error',
+			message: error.message,
+		});
+		throw error;
+	}
 }
 
 module.exports = {
