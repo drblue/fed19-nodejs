@@ -31,7 +31,12 @@ const PersonSchema = new mongoose.Schema({
 			minlength: 2,
 			maxlength: 2,
 		}
-	}
+	},
+	biography: {
+		type: String,
+		default: null,
+		trim: true,
+	},
 });
 
 // Declare and Export model

@@ -44,10 +44,22 @@ const show = async (req, res) => {
 			return;
 		}
 
+		// get movies where person is director
+		const director_for = await models.Movie.find({ director: req.params.personId }, 'title');
+
+		// get movies where person is actor
+		const acting_in = await models.Movie.find({ actors: req.params.personId }, 'title');
+
 		res.send({
 			status: 'success',
 			data: {
 				person,
+				director: {
+					movies: director_for,
+				},
+				actor: {
+					movies: acting_in,
+				},
 			}
 		});
 
