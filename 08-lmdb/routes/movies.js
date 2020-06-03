@@ -9,6 +9,9 @@ const movieController = require('../controllers/movie_controller');
 /* Get all movies */
 router.get('/', movieController.index);
 
+/* Search for movies */
+router.get('/search', movieController.search);
+
 /* Get a movie */
 router.get('/:movie', movieController.show);
 

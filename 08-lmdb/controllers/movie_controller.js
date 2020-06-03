@@ -31,6 +31,14 @@ const index = async (req, res) => {
 }
 
 /**
+ * Search for movies
+ */
+const search = async (req, res) => {
+	console.log("Want to search for:", req.query.q);
+	res.send({ status: 'success' });
+}
+
+/**
  * Get a movie
  *
  * GET /:movie
@@ -241,6 +249,7 @@ const getMovieFilter = movie => {
 
 module.exports = {
 	index,
+	search,
 	show,
 	store,
 	update,
