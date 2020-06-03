@@ -22,11 +22,11 @@ const index = async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(500).send({
+		debug(error);
+		return res.status(500).send({
 			status: 'error',
-			message: 'Exception thrown when trying to get all movies.',
+			message: error.message,
 		});
-		throw error;
 	}
 }
 
@@ -63,11 +63,11 @@ const show = async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(500).send({
+		debug(error);
+		return res.status(500).send({
 			status: 'error',
 			message: error.message,
 		});
-		throw error;
 	}
 }
 
@@ -89,11 +89,11 @@ const store = async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(500).send({
+		debug(error);
+		return res.status(500).send({
 			status: 'error',
 			message: error.message,
 		});
-		throw error;
 	}
 }
 
@@ -123,11 +123,11 @@ const update = async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(500).send({
+		debug(error);
+		return res.status(500).send({
 			status: 'error',
 			message: error.message,
 		});
-		throw error;
 	}
 }
 
@@ -153,11 +153,11 @@ const destroy = async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(500).send({
+		debug(error);
+		return res.status(500).send({
 			status: 'error',
 			message: error.message,
 		});
-		throw error;
 	}
 }
 
@@ -193,11 +193,11 @@ const addActors = async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(500).send({
+		debug(error);
+		return res.status(500).send({
 			status: 'error',
 			message: error.message,
 		});
-		throw error;
 	}
 }
 
@@ -230,11 +230,11 @@ const removeActor = async (req, res) => {
 		});
 
 	} catch (error) {
-		res.status(500).send({
+		debug(error);
+		return res.status(500).send({
 			status: 'error',
 			message: error.message,
 		});
-		throw error;
 	}
 }
 
