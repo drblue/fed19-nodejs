@@ -3,7 +3,11 @@
  */
 
 const mongoose = require('mongoose');
+const slug = require('mongoose-slug-generator');
 const Schema = mongoose.Schema;
+
+// Tell Mongoose to use the slug package as a plugin
+mongoose.plugin(slug);
 
 // Declare Model Schema
 const MovieSchema = new Schema({
@@ -12,6 +16,10 @@ const MovieSchema = new Schema({
 		required: true,
 		trim: true,
 		minlength: 3,
+	},
+	slug: {
+		type: String,
+		slug: 'title',
 	},
 	original_title: {
 		type: String,
