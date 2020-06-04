@@ -238,6 +238,14 @@ const removeActor = async (req, res) => {
 	}
 }
 
+/**
+ * Get movie filter
+ *
+ * If `movie` is a hexadecimal string of exactly 24 characters,
+ * then search the `_id` attribute.
+ * Otherwise, assume `movie` contains a slug and search the
+ * `slug` attribute.
+ */
 const getMovieFilter = movie => {
 	return (/^[0-9a-fA-F]{24}$/.test(movie))
 		? { _id: movie }
