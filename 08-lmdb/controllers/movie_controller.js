@@ -41,7 +41,11 @@ const search = async (req, res) => {
 
 	// Search for query in movie-title
 	const movies = await models.Movie.find({
-		title: regExpQuery,
+		$or: [
+			{ title: regExpQuery, },
+			{ plot: regExpQuery, },
+			{ original_title: regExpQuery, },
+		],
 	});
 
 	return res.send({
