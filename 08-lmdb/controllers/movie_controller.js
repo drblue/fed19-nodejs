@@ -34,8 +34,22 @@ const index = async (req, res) => {
  * Search for movies
  */
 const search = async (req, res) => {
-	console.log("Want to search for:", req.query.q);
-	res.send({ status: 'success' });
+	const query = req.query.q;
+	debug("Incoming search query: '%s'", query);
+
+	const regExpQuery = new RegExp(query, 'i');
+
+	// Search for query in movie-title
+	const movies = await models.Movie.find({
+		title: regExpQuery,
+	});
+
+	return res.send({
+		status: 'success',
+		data: {
+			movies,
+		},
+	});
 }
 
 /**
