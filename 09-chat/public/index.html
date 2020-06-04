@@ -13,11 +13,7 @@
 <body>
 	<div id="chat">
 		<div id="message-wrapper">
-			<ul id="messages" class="list-group">
-				<li class="list-group-item">Simon says: Jump!</li>
-				<li class="list-group-item">Ariana says: No, YOU jump!</li>
-				<li class="list-group-item">Uncle Sam says: EVERYONE jump!</li>
-			</ul>
+			<ul id="messages" class="list-group"></ul>
 		</div>
 
 		<form id="message-form" class="form-inline">
@@ -28,6 +24,7 @@
 		</form>
 	</div>
 
+	<script src="/socket.io/socket.io.js"></script>
 	<script src="/assets/js/chat.js"></script>
 </body>
 </html>
