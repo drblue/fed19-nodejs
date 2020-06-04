@@ -14,7 +14,7 @@ const index = async (req, res) => {
 	try {
 		const movies = await models.Movie.find();
 
-		res.send({
+		return res.send({
 			status: 'success',
 			data: {
 				movies,
@@ -51,11 +51,10 @@ const show = async (req, res) => {
 			.populate('genres');
 
 		if (!movie) {
-			res.sendStatus(404);
-			return;
+			return res.sendStatus(404);
 		}
 
-		res.send({
+		return res.send({
 			status: 'success',
 			data: {
 				movie,
@@ -79,9 +78,8 @@ const show = async (req, res) => {
 const store = async (req, res) => {
 	try {
 		const movie = await new models.Movie(req.body).save();
-		debug('New movie created: %j', req.body);
 
-		res.status(201).send({
+		return res.status(201).send({
 			status: 'success',
 			data: {
 				movie,
@@ -111,11 +109,10 @@ const update = async (req, res) => {
 		);
 
 		if (!movie) {
-			res.sendStatus(404);
-			return;
+			return res.sendStatus(404);
 		}
 
-		res.send({
+		return res.send({
 			status: 'success',
 			data: {
 				movie,
@@ -141,11 +138,10 @@ const destroy = async (req, res) => {
 		const movie = await models.Movie.findOneAndRemove(getMovieFilter(req.params.movie));
 
 		if (!movie) {
-			res.sendStatus(404);
-			return;
+			return res.sendStatus(404);
 		}
 
-		res.send({
+		return res.send({
 			status: 'success',
 			data: {
 				movie,
@@ -181,11 +177,10 @@ const addActors = async (req, res) => {
 		const movie = await models.Movie.findByIdAndUpdate(req.params.movieId, data, { new: true });
 
 		if (!movie) {
-			res.sendStatus(404);
-			return;
+			return res.sendStatus(404);
 		}
 
-		res.send({
+		return res.send({
 			status: 'success',
 			data: {
 				movie,
@@ -218,11 +213,10 @@ const removeActor = async (req, res) => {
 		const movie = await models.Movie.findByIdAndUpdate(req.params.movieId, data, { new: true });
 
 		if (!movie) {
-			res.sendStatus(404);
-			return;
+			return res.sendStatus(404);
 		}
 
-		res.send({
+		return res.send({
 			status: 'success',
 			data: {
 				movie,
