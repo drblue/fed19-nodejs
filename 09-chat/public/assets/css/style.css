@@ -1,0 +1,23 @@
+#app {
+	background-color: aliceblue;
+	height: 100vh;
+	width: 100vw;
+}
+
+#chat {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+}
+
+#message-wrapper {
+	flex-grow: 1;
+}
+
+#messages li:nth-child(even) {
+	background-color: cornflowerblue;
+	color: white;
+}
+#messages li:nth-child(odd) {
+	background-color: lightblue;
+}
