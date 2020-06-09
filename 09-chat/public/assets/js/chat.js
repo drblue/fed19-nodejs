@@ -53,6 +53,12 @@ messageForm.addEventListener('submit', e => {
 	messageEl.value = '';
 });
 
+socket.on('reconnect', () => {
+	if (username) {
+		socket.emit('register-user', username);
+	}
+});
+
 socket.on('new-user-connected', (username) => {
 	addNoticeToChat(`${username} connected to the chat 🥳!`);
 });
