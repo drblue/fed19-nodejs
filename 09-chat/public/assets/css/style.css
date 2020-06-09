@@ -63,3 +63,7 @@
 #messages li .user {
 	font-weight: bold;
 }
+
+#messages .notice {
+	font-style: italic;
+}

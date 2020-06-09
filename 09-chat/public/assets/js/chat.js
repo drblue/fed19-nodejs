@@ -6,9 +6,19 @@ const usernameForm = document.querySelector('#username-form');
 const messageForm = document.querySelector('#message-form');
 
 let username = null;
+
+const addNoticeToChat = (notice) => {
+	const noticeEl = document.createElement('li');
+	noticeEl.classList.add('list-group-item', 'list-group-item-light', 'notice');
+
+	noticeEl.innerHTML = notice;
+
+	document.querySelector('#messages').appendChild(noticeEl);
+}
+
 const addMessageToChat = (msg, ownMsg = false) => {
 	const msgEl = document.createElement('li');
-	msgEl.classList.add('list-group-item');
+	msgEl.classList.add('list-group-item', 'message');
 	msgEl.classList.add(ownMsg ? 'list-group-item-primary' : 'list-group-item-secondary');
 
 	const username = ownMsg ? 'You' : msg.username;
@@ -43,7 +53,10 @@ messageForm.addEventListener('submit', e => {
 	messageEl.value = '';
 });
 
+socket.on('user-connected', (username) => {
+	addNoticeToChat(`${username} connected to the chat 🥳!`);
+});
+
 socket.on('chatmsg', (msg) => {
-	console.log("Someone said something:", msg);
 	addMessageToChat(msg);
 });
