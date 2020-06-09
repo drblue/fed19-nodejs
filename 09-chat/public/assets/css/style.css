@@ -45,5 +45,6 @@
 	flex-grow: 1;
 }
 
-#messages li {
+#messages li .user {
+	font-weight: bold;
 }
