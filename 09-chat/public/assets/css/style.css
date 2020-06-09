@@ -4,20 +4,46 @@
 	width: 100vw;
 }
 
+#app {
+	display: flex;
+	height: 100vh;
+}
+
 #chat {
 	display: flex;
 	flex-direction: column;
-	height: 100vh;
+	flex-grow: 1;
+	border-right: 1px solid #555;
+}
+
+#chat .form-group {
+	flex-grow: 1;
+	display: flex;
+}
+
+#chat .form-group #message {
+	flex-grow: 1;
+}
+
+#users {
+	flex-basis: 20%;
+}
+
+#users h2 {
+	background-color: cornflowerblue;
+	padding: 0.5rem 0.75rem;
+	color: white;
+}
+
+#users ul {
+	margin: 0;
+	padding: 0.5rem 0.75rem;
+	list-style: none;
 }
 
 #message-wrapper {
 	flex-grow: 1;
 }
 
-#messages li:nth-child(even) {
-	background-color: cornflowerblue;
-	color: white;
-}
-#messages li:nth-child(odd) {
-	background-color: lightblue;
+#messages li {
 }

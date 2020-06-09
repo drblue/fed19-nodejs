@@ -11,17 +11,31 @@
 </head>
 
 <body>
-	<div id="chat">
-		<div id="message-wrapper">
-			<ul id="messages" class="list-group"></ul>
-		</div>
-
-		<form id="message-form" class="form-inline">
-			<div class="form-group">
-				<input type="text" id="message" class="form-control" placeholder="Type something nice...">
-				<button type="submit" class="btn btn-outline-success">🗣</button>
+	<div id="app">
+		<div id="chat">
+			<div id="message-wrapper">
+				<ul id="messages" class="list-group">
+					<!-- <li class="list-group-item list-group-item-secondary">Agneta: Hej Bengt!</li>
+					<li class="list-group-item list-group-item-secondary">Bengt: Amen tjena Agneta, läääääget?</li>
+					<li class="list-group-item list-group-item-primary">You: Alltså ni två, get a room.. 🤦‍♀️</li> -->
+				</ul>
 			</div>
-		</form>
+
+			<form id="message-form" class="form-inline">
+				<div class="form-group">
+					<input type="text" id="message" class="form-control" placeholder="Type something nice...">
+					<button type="submit" class="btn btn-outline-success">🗣</button>
+				</div>
+			</form>
+		</div>
+		<div id="users">
+			<h2>Users online</h2>
+			<ul id="online-users">
+				<li>Agneta</li>
+				<li>Bengt</li>
+				<li>Camilla</li>
+			</ul>
+		</div>
 	</div>
 
 	<script src="/socket.io/socket.io.js"></script>
