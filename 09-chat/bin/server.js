@@ -30,6 +30,13 @@ io.on('connection', (socket) => {
 
 	socket.on('disconnect', () => {
 		debug("Someone left the chat :(");
+
+	socket.on('user-connected', username => {
+		debug("User '%s' connected to the chat", username);
+		users[socket.id] = username;
+
+		// broadcast to all connected sockets EXCEPT ourselves
+		socket.broadcast.emit('user-connected', username);
 	});
 
 	socket.on('chatmsg', (msg) => {

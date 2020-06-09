@@ -4,7 +4,22 @@
 	width: 100vw;
 }
 
-#app {
+.hide {
+	display: none !important;
+}
+
+#start {
+	display: flex;
+	height: 100vh;
+	align-items: center;
+}
+
+#username-form {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#chat-wrapper {
 	display: flex;
 	height: 100vh;
 }

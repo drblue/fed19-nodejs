@@ -1,5 +1,11 @@
 const socket = io();
 
+const startEl = document.querySelector('#start');
+const chatWrapperEl = document.querySelector('#chat-wrapper');
+const usernameForm = document.querySelector('#username-form');
+const messageForm = document.querySelector('#message-form');
+
+let username = null;
 const addMessageToChat = (msg, ownMsg = false) => {
 	const msgEl = document.createElement('li');
 	msgEl.classList.add('list-group-item');
@@ -11,7 +17,18 @@ const addMessageToChat = (msg, ownMsg = false) => {
 	document.querySelector('#messages').appendChild(msgEl);
 }
 
-document.querySelector('#message-form').addEventListener('submit', e => {
+// get username from form and emit `user-connected`-event to server
+usernameForm.addEventListener('submit', e => {
+	e.preventDefault();
+
+	username = document.querySelector('#username').value;
+	socket.emit('user-connected', username);
+
+	startEl.classList.add('hide');
+	chatWrapperEl.classList.remove('hide');
+});
+
+messageForm.addEventListener('submit', e => {
 	e.preventDefault();
 
 	const messageEl = document.querySelector('#message');
