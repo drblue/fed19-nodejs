@@ -57,6 +57,10 @@ socket.on('user-connected', (username) => {
 	addNoticeToChat(`${username} connected to the chat 🥳!`);
 });
 
+socket.on('user-disconnected', (username) => {
+	addNoticeToChat(`${username} left the chat 😢...`);
+});
+
 socket.on('chatmsg', (msg) => {
 	addMessageToChat(msg);
 });

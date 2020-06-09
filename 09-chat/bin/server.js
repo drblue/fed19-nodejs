@@ -31,7 +31,14 @@ io.on('connection', (socket) => {
 	debug("A client connected!");
 
 	socket.on('disconnect', () => {
-		debug("Someone left the chat :(");
+		debug(`Socket ${socket.id} left the chat :(`);
+
+		// broadcast to all connected sockets that this user has left the chat
+		socket.broadcast.emit('user-disconnected', users[socket.id]);
+
+		// remove user from list of connected users
+		delete users[socket.id];
+	});
 
 	socket.on('user-connected', username => {
 		debug("User '%s' connected to the chat", username);
