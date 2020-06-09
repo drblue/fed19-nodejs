@@ -27,12 +27,12 @@ const addMessageToChat = (msg, ownMsg = false) => {
 	document.querySelector('#messages').appendChild(msgEl);
 }
 
-// get username from form and emit `user-connected`-event to server
+// get username from form and emit `register-user`-event to server
 usernameForm.addEventListener('submit', e => {
 	e.preventDefault();
 
 	username = document.querySelector('#username').value;
-	socket.emit('user-connected', username);
+	socket.emit('register-user', username);
 
 	startEl.classList.add('hide');
 	chatWrapperEl.classList.remove('hide');
@@ -53,7 +53,7 @@ messageForm.addEventListener('submit', e => {
 	messageEl.value = '';
 });
 
-socket.on('user-connected', (username) => {
+socket.on('new-user-connected', (username) => {
 	addNoticeToChat(`${username} connected to the chat 🥳!`);
 });
 

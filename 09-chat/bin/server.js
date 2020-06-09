@@ -25,37 +25,7 @@ app.set('port', port);
 const server = http.createServer(app);
 const io = SocketIO(server);
 
-const users = {};
-
-io.on('connection', (socket) => {
-	debug("A client connected!");
-
-	socket.on('disconnect', () => {
-		debug(`Socket ${socket.id} left the chat :(`);
-
-		// broadcast to all connected sockets that this user has left the chat
-		socket.broadcast.emit('user-disconnected', users[socket.id]);
-
-		// remove user from list of connected users
-		delete users[socket.id];
-	});
-
-	socket.on('user-connected', username => {
-		debug("User '%s' connected to the chat", username);
-		users[socket.id] = username;
-
-		// broadcast to all connected sockets EXCEPT ourselves
-		socket.broadcast.emit('user-connected', username);
-	});
-
-	socket.on('chatmsg', (msg) => {
-		debug("Someone sent something nice: '%s'", msg);
-		//io.emit('chatmsg', msg); // emit to all connected sockets
-
-		// broadcast to all connected sockets EXCEPT ourselves
-		socket.broadcast.emit('chatmsg', msg);
-	});
-});
+io.on('connection', require('../controllers/socket_controller'));
 
 /**
  * Listen on provided port, on all network interfaces.
