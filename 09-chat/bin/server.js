@@ -25,6 +25,8 @@ app.set('port', port);
 const server = http.createServer(app);
 const io = SocketIO(server);
 
+const users = {};
+
 io.on('connection', (socket) => {
 	debug("A client connected!");
 
