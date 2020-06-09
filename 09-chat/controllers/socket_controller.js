@@ -6,6 +6,13 @@ const debug = require('debug')('09-simple-chat:socket_controller');
 const users = {};
 
 /**
+ * Get usernames of online users
+ */
+function getOnlineUsers() {
+	return Object.values(users);
+}
+
+/**
  * Handle user disconnecting
  */
 function handleUserDisconnect() {
@@ -34,12 +41,20 @@ function handleChatMsg (msg) {
 /**
  * Handle a new user connecting
  */
-function handleRegisterUser(username) {
+function handleRegisterUser(username, callback) {
 	debug("User '%s' connected to the chat", username);
 	users[this.id] = username;
+	callback({
+		joinChat: true,
+		usernameInUse: false,
+		onlineUsers: getOnlineUsers(),
+	});
 
 	// broadcast to all connected sockets EXCEPT ourselves
 	this.broadcast.emit('new-user-connected', username);
+
+	// broadcast online users to all connected sockets EXCEPT ourselves
+	this.broadcast.emit('online-users', getOnlineUsers());
 }
 
 module.exports = function(socket) {

@@ -27,15 +27,26 @@ const addMessageToChat = (msg, ownMsg = false) => {
 	document.querySelector('#messages').appendChild(msgEl);
 }
 
+const updateOnlineUsers = (users) => {
+	document.querySelector('#online-users').innerHTML = users.map(user => `<li class="user">${user}</li>`).join("");
+}
+
 // get username from form and emit `register-user`-event to server
 usernameForm.addEventListener('submit', e => {
 	e.preventDefault();
 
 	username = document.querySelector('#username').value;
-	socket.emit('register-user', username);
+	socket.emit('register-user', username, (status) => {
+		console.log("Server acknowledged the registration :D", status);
 
-	startEl.classList.add('hide');
-	chatWrapperEl.classList.remove('hide');
+		if (status.joinChat) {
+			startEl.classList.add('hide');
+			chatWrapperEl.classList.remove('hide');
+
+			updateOnlineUsers(status.onlineUsers);
+		}
+	});
+
 });
 
 messageForm.addEventListener('submit', e => {
@@ -55,8 +66,14 @@ messageForm.addEventListener('submit', e => {
 
 socket.on('reconnect', () => {
 	if (username) {
-		socket.emit('register-user', username);
+		socket.emit('register-user', username, () => {
+			console.log("The server acknowledged our reconnect.");
+		});
 	}
+});
+
+socket.on('online-users', (users) => {
+	updateOnlineUsers(users);
 });
 
 socket.on('new-user-connected', (username) => {
