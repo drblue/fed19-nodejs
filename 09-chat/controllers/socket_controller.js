@@ -5,6 +5,8 @@
 const debug = require('debug')('09-simple-chat:socket_controller');
 const users = {};
 
+let io = null;
+
 /**
  * Get usernames of online users
  */
@@ -59,6 +61,7 @@ function handleRegisterUser(username, callback) {
 
 module.exports = function(socket) {
 	// this = io
+	io = this;
 	debug(`Client ${socket.id} connected!`);
 
 	socket.on('disconnect', handleUserDisconnect);
