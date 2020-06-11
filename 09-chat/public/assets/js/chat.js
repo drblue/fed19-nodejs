@@ -5,6 +5,7 @@ const chatWrapperEl = document.querySelector('#chat-wrapper');
 const usernameForm = document.querySelector('#username-form');
 const messageForm = document.querySelector('#message-form');
 
+let room = null;
 let username = null;
 
 const addNoticeToChat = (notice) => {
@@ -33,16 +34,31 @@ const addMessageToChat = (msg, ownMsg = false) => {
 	msgEl.scrollIntoView();
 }
 
+const getRoomList = () => {
+	console.log("Requesting room list from server...");
+
+	socket.emit('get-room-list', (rooms) => {
+		// update list of rooms
+		updateRoomList(rooms);
+	})
+}
+
 const updateOnlineUsers = (users) => {
 	document.querySelector('#online-users').innerHTML = users.map(user => `<li class="user"><span class="fas fa-user"></span> ${user}</li>`).join("");
+}
+
+const updateRoomList = (rooms) => {
+	console.log("Got a list of rooms!", rooms);
+	document.querySelector('#room').innerHTML = rooms.map(room => `<option value="${room}">${room}</option>`).join("");
 }
 
 // get username from form and emit `register-user`-event to server
 usernameForm.addEventListener('submit', e => {
 	e.preventDefault();
 
-	username = document.querySelector('#username').value;
-	socket.emit('register-user', username, (status) => {
+	room = usernameForm.room.value;
+	username = usernameForm.username.value;
+	socket.emit('register-user', room, username, (status) => {
 		console.log("Server acknowledged the registration :D", status);
 
 		if (status.joinChat) {
@@ -97,3 +113,7 @@ socket.on('user-disconnected', (username) => {
 socket.on('chatmsg', (msg) => {
 	addMessageToChat(msg);
 });
+
+window.onload = () => {
+	getRoomList();
+}

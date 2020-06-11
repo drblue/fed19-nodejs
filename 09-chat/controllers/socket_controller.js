@@ -3,6 +3,20 @@
  */
 
 const debug = require('debug')('09-simple-chat:socket_controller');
+const rooms = [
+	{
+		name: 'general',
+		users: {},
+	},
+	{
+		name: 'lieutenant',
+		users: {},
+	},
+	{
+		name: 'private',
+		users: {},
+	},
+];
 const users = {};
 
 let io = null;
@@ -12,6 +26,13 @@ let io = null;
  */
 function getOnlineUsers() {
 	return Object.values(users);
+}
+
+/**
+ * Get room names
+ */
+function getListOfRoomNames() {
+	return rooms.map(room => room.name);
 }
 
 /**
@@ -50,10 +71,21 @@ function handleChatMsg (incomingMsg) {
 }
 
 /**
+ * Handle a request for rooms
+ */
+function handleGetRoomList(callback) {
+	callback(getListOfRoomNames());
+}
+
+/**
  * Handle a new user connecting
  */
-function handleRegisterUser(username, callback) {
-	debug("User '%s' connected to the chat", username);
+function handleRegisterUser(room, username, callback) {
+	debug("User '%s' wants to connect to the room '%s'", username, room);
+
+	// join the requested room
+	this.join(room);
+
 	users[this.id] = username;
 	callback({
 		joinChat: true,
@@ -61,11 +93,11 @@ function handleRegisterUser(username, callback) {
 		onlineUsers: getOnlineUsers(),
 	});
 
-	// broadcast to all connected sockets EXCEPT ourselves
-	this.broadcast.emit('new-user-connected', username);
+	// broadcast to all connected sockets in the room EXCEPT ourselves
+	this.broadcast.to(room).emit('new-user-connected', username);
 
-	// broadcast online users to all connected sockets EXCEPT ourselves
-	this.broadcast.emit('online-users', getOnlineUsers());
+	// broadcast online users in room to all connected sockets EXCEPT ourselves
+	this.broadcast.to(room).emit('online-users', getOnlineUsers());
 }
 
 module.exports = function(socket) {
@@ -76,5 +108,6 @@ module.exports = function(socket) {
 	socket.on('disconnect', handleUserDisconnect);
 
 	socket.on('chatmsg', handleChatMsg);
+	socket.on('get-room-list', handleGetRoomList);
 	socket.on('register-user', handleRegisterUser);
 }

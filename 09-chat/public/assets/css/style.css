@@ -34,6 +34,12 @@
 	border-right: 1px solid #555;
 }
 
+#chat h2 {
+	background-color: cornflowerblue;
+	padding: 0.5rem 0.75rem;
+	color: white;
+}
+
 #chat .form-group {
 	flex-grow: 1;
 	display: flex;
