@@ -17,13 +17,16 @@ const addNoticeToChat = (notice) => {
 }
 
 const addMessageToChat = (msg, ownMsg = false) => {
+	console.log("addMessageToChat:", msg);
 	const msgEl = document.createElement('li');
 	msgEl.classList.add('message');
 	if (ownMsg) {
 		msgEl.classList.add('you');
 	}
 
-	msgEl.innerHTML = ownMsg ? msg.content : `<span class="user">${msg.username}</span>: ${msg.content}`;
+	msgEl.innerHTML = ownMsg
+		? msg.content
+		: `<span class="user">${msg.username}</span>: <span class="content">${msg.content}</span> <span class="time">${moment(msg.time).format('hh:mm:ss')}</span>`;
 
 	document.querySelector('#messages').appendChild(msgEl);
 }
@@ -60,7 +63,6 @@ messageForm.addEventListener('submit', e => {
 
 	const msg = {
 		content: messageEl.value,
-		username: document.querySelector('#username').value,
 	}
 
 	socket.emit('chatmsg', msg);

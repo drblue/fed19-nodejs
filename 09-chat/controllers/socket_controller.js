@@ -35,9 +35,15 @@ function handleUserDisconnect() {
 /**
  * Handle incoming chat-message
  */
-function handleChatMsg (msg) {
-	debug("Someone sent something nice: '%s'", msg);
+function handleChatMsg (incomingMsg) {
+	debug("Someone sent something nice: '%s'", incomingMsg);
 	//io.emit('chatmsg', msg); // emit to all connected sockets
+
+	const msg = {
+		time: Date.now(),
+		content: incomingMsg.content,
+		username: users[this.id],
+	}
 
 	// broadcast to all connected sockets EXCEPT ourselves
 	this.broadcast.emit('chatmsg', msg);
