@@ -18,15 +18,18 @@ function getOnlineUsers() {
  * Handle user disconnecting
  */
 function handleUserDisconnect() {
-	debug(`Socket ${this.id} left the chat :(`);
+	debug(`Client ${this.id} disconnected :(`);
 
-	// broadcast to all connected sockets that this user has left the chat
 	if (users[this.id]) {
+		// broadcast to all connected sockets that this user has left the chat
 		this.broadcast.emit('user-disconnected', users[this.id]);
-	}
 
-	// remove user from list of connected users
-	delete users[this.id];
+		// remove user from list of connected users
+		delete users[this.id];
+
+		// broadcast online users to all connected sockets EXCEPT ourselves
+		this.broadcast.emit('online-users', getOnlineUsers());
+	}
 }
 
 /**
