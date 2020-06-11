@@ -1,7 +1,7 @@
 #app,
 #start,
 #chat-wrapper {
-	min-height: 100vh;
+	height: 100vh;
 }
 
 #app {
@@ -65,6 +65,8 @@
 
 #message-wrapper {
 	flex-grow: 1;
+	overflow-y: scroll;
+	height: calc(100vh - 38px);
 }
 
 #messages {

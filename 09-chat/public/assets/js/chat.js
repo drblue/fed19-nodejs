@@ -14,6 +14,7 @@ const addNoticeToChat = (notice) => {
 	noticeEl.innerHTML = notice;
 
 	document.querySelector('#messages').appendChild(noticeEl);
+	noticeEl.scrollIntoView();
 }
 
 const addMessageToChat = (msg, ownMsg = false) => {
@@ -29,6 +30,7 @@ const addMessageToChat = (msg, ownMsg = false) => {
 		: `<span class="user">${msg.username}</span>: <span class="content">${msg.content}</span> <span class="time">${moment(msg.time).format('hh:mm:ss')}</span>`;
 
 	document.querySelector('#messages').appendChild(msgEl);
+	msgEl.scrollIntoView();
 }
 
 const updateOnlineUsers = (users) => {
