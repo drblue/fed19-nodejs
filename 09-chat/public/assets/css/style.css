@@ -1,6 +1,11 @@
+#app,
+#start,
+#chat-wrapper {
+	min-height: 100vh;
+}
+
 #app {
 	background-color: aliceblue;
-	height: 100vh;
 	width: 100vw;
 }
 
@@ -10,7 +15,6 @@
 
 #start {
 	display: flex;
-	height: 100vh;
 	align-items: center;
 }
 
@@ -21,7 +25,6 @@
 
 #chat-wrapper {
 	display: flex;
-	height: 100vh;
 }
 
 #chat {
@@ -56,8 +59,37 @@
 	list-style: none;
 }
 
+#users li .fas {
+	color: var(--success);
+}
+
 #message-wrapper {
 	flex-grow: 1;
+}
+
+#messages {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+	list-style: none;
+	padding: 0;
+}
+
+#messages .message {
+	padding: 0.5rem 0.75rem;
+	background-color: lightgray;
+	border-radius: 0.75rem;
+}
+
+#messages li {
+	align-self: flex-start;
+	margin: 0.1rem;
+}
+
+#messages .message.you {
+	background-color: cornflowerblue;
+	color: white;
+	align-self: flex-end;
 }
 
 #messages li .user {

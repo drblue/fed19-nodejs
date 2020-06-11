@@ -9,7 +9,7 @@ let username = null;
 
 const addNoticeToChat = (notice) => {
 	const noticeEl = document.createElement('li');
-	noticeEl.classList.add('list-group-item', 'list-group-item-light', 'notice');
+	noticeEl.classList.add('notice');
 
 	noticeEl.innerHTML = notice;
 
@@ -18,17 +18,18 @@ const addNoticeToChat = (notice) => {
 
 const addMessageToChat = (msg, ownMsg = false) => {
 	const msgEl = document.createElement('li');
-	msgEl.classList.add('list-group-item', 'message');
-	msgEl.classList.add(ownMsg ? 'list-group-item-primary' : 'list-group-item-secondary');
+	msgEl.classList.add('message');
+	if (ownMsg) {
+		msgEl.classList.add('you');
+	}
 
-	const username = ownMsg ? 'You' : msg.username;
-	msgEl.innerHTML = `<span class="user">${username}</span>: ${msg.content}`;
+	msgEl.innerHTML = ownMsg ? msg.content : `<span class="user">${msg.username}</span>: ${msg.content}`;
 
 	document.querySelector('#messages').appendChild(msgEl);
 }
 
 const updateOnlineUsers = (users) => {
-	document.querySelector('#online-users').innerHTML = users.map(user => `<li class="user">${user}</li>`).join("");
+	document.querySelector('#online-users').innerHTML = users.map(user => `<li class="user"><span class="fas fa-user"></span> ${user}</li>`).join("");
 }
 
 // get username from form and emit `register-user`-event to server
@@ -53,6 +54,10 @@ messageForm.addEventListener('submit', e => {
 	e.preventDefault();
 
 	const messageEl = document.querySelector('#message');
+	if (!messageEl.value) {
+		return;
+	}
+
 	const msg = {
 		content: messageEl.value,
 		username: document.querySelector('#username').value,
@@ -62,6 +67,7 @@ messageForm.addEventListener('submit', e => {
 	addMessageToChat(msg, true);
 
 	messageEl.value = '';
+	messageEl.focus();
 });
 
 socket.on('reconnect', () => {
