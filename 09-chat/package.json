@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node ./bin/server.js",
     "dev": "cross-env DEBUG=09-simple-chat:* nodemon ./bin/server.js",
-    "debug": "cross-env DEBUG=09-simple-chat:* nodemon --inspect ./bin/server.js"
+    "debug": "cross-env DEBUG=09-simple-chat:*,socket.io:client,socket.io:server nodemon --inspect ./bin/server.js"
   },
   "dependencies": {
     "cross-env": "^7.0.2",
