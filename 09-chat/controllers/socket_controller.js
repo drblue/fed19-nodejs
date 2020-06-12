@@ -31,8 +31,7 @@ function getListOfRoomNames() {
 /**
  * Get usernames of online users in room
  */
-function getOnlineUsersInRoom(roomName) {
-	const room = getRoomByName(roomName);
+function getOnlineUsersInRoom(room) {
 	return Object.values(room.users);
 }
 
@@ -44,10 +43,10 @@ function getRoomByName(roomName) {
 }
 
 /**
- * Get username by id in room
+ * Get username by id
  */
-function getUsernameByIdForRoom(id, roomName) {
-	const room = getRoomByName(roomName);
+function getUsernameById(id) {
+	const room = getRoomByUserId(id);
 	return room.users[id];
 }
 
@@ -76,7 +75,7 @@ function handleUserDisconnect() {
 	delete room.users[this.id];
 
 	// broadcast online users in room to all connected users in the room EXCEPT ourselves
-	this.broadcast.to(room.name).emit('online-users', getOnlineUsersInRoom(room.name));
+	this.broadcast.to(room.name).emit('online-users', getOnlineUsersInRoom(room));
 }
 
 /**
@@ -89,7 +88,7 @@ function handleChatMsg(incomingMsg) {
 	const msg = {
 		time: Date.now(),
 		content: incomingMsg.content,
-		username: getUsernameByIdForRoom(this.id, incomingMsg.room),
+		username: getUsernameById(this.id, incomingMsg.room),
 	}
 
 	// broadcast to all connected sockets EXCEPT ourselves
@@ -115,20 +114,18 @@ function handleRegisterUser(roomName, username, callback) {
 	// add user to room's list of online users
 	const room = getRoomByName(roomName);
 	room.users[this.id] = username;
-	// addUserToRoom(this.id, username, room);
-	// removeUserFromRoom(this.id, room);
 
 	callback({
 		joinChat: true,
 		usernameInUse: false,
-		onlineUsers: getOnlineUsersInRoom(roomName),
+		onlineUsers: getOnlineUsersInRoom(room),
 	});
 
 	// broadcast to all connected sockets in the room EXCEPT ourselves
 	this.broadcast.to(roomName).emit('new-user-connected', username);
 
 	// broadcast online users in room to all connected sockets EXCEPT ourselves
-	this.broadcast.to(roomName).emit('online-users', getOnlineUsersInRoom(roomName));
+	this.broadcast.to(roomName).emit('online-users', getOnlineUsersInRoom(room));
 }
 
 module.exports = function(socket) {
