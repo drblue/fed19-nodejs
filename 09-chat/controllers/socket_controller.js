@@ -44,6 +44,13 @@ function getRoomByName(roomName) {
 }
 
 /**
+ * Get username by id in room
+ */
+function getUsernameByIdForRoom(id, roomName) {
+	const room = getRoomByName(roomName);
+	return room.users[id];
+}
+/**
  * Handle user disconnecting
  */
 function handleUserDisconnect() {
@@ -71,7 +78,7 @@ function handleChatMsg(incomingMsg) {
 	const msg = {
 		time: Date.now(),
 		content: incomingMsg.content,
-		username: users[this.id],
+		username: getUsernameByIdForRoom(this.id, incomingMsg.room),
 	}
 
 	// broadcast to all connected sockets EXCEPT ourselves
