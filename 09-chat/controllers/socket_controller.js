@@ -75,7 +75,7 @@ function handleChatMsg(incomingMsg) {
 	}
 
 	// broadcast to all connected sockets EXCEPT ourselves
-	this.broadcast.emit('chatmsg', msg);
+	this.broadcast.to(incomingMsg.room).emit('chatmsg', msg);
 }
 
 /**

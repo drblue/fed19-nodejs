@@ -84,6 +84,7 @@ messageForm.addEventListener('submit', e => {
 
 	const msg = {
 		content: messageEl.value,
+		room: roomName,
 	}
 
 	socket.emit('chatmsg', msg);
