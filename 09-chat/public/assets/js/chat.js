@@ -5,7 +5,7 @@ const chatWrapperEl = document.querySelector('#chat-wrapper');
 const usernameForm = document.querySelector('#username-form');
 const messageForm = document.querySelector('#message-form');
 
-let room = null;
+let roomName = null;
 let username = null;
 
 const addNoticeToChat = (notice) => {
@@ -43,6 +43,12 @@ const getRoomList = () => {
 	})
 }
 
+const showChat = (roomName) => {
+	document.querySelector('#chat-title').innerText = roomName;
+	startEl.classList.add('hide');
+	chatWrapperEl.classList.remove('hide');
+}
+
 const updateOnlineUsers = (users) => {
 	document.querySelector('#online-users').innerHTML = users.map(user => `<li class="user"><span class="fas fa-user"></span> ${user}</li>`).join("");
 }
@@ -56,19 +62,16 @@ const updateRoomList = (rooms) => {
 usernameForm.addEventListener('submit', e => {
 	e.preventDefault();
 
-	room = usernameForm.room.value;
+	roomName = usernameForm.room.value;
 	username = usernameForm.username.value;
-	socket.emit('register-user', room, username, (status) => {
+	socket.emit('register-user', roomName, username, (status) => {
 		console.log("Server acknowledged the registration :D", status);
 
 		if (status.joinChat) {
-			startEl.classList.add('hide');
-			chatWrapperEl.classList.remove('hide');
-
+			showChat(roomName);
 			updateOnlineUsers(status.onlineUsers);
 		}
 	});
-
 });
 
 messageForm.addEventListener('submit', e => {
