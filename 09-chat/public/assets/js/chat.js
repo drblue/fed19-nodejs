@@ -95,7 +95,7 @@ messageForm.addEventListener('submit', e => {
 
 socket.on('reconnect', () => {
 	if (username) {
-		socket.emit('register-user', username, () => {
+		socket.emit('register-user', room, username, () => {
 			console.log("The server acknowledged our reconnect.");
 		});
 	}
