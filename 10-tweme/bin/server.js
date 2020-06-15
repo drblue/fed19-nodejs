@@ -25,6 +25,13 @@ app.set('port', port);
 const server = http.createServer(app);
 const io = SocketIO(server);
 
+// Load tweme controller
+const tweme = require('../controllers/tweme');
+
+// Pass Socket.io-server instance to tweme controller
+tweme(io);
+
+// Pass incoming Socket.io-connections to socket controller
 io.on('connection', require('../controllers/socket_controller'));
 
 /**
