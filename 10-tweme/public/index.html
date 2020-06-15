@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>📢</title>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-2/css/all.min.css" integrity="sha256-46r060N2LrChLLb5zowXQ72/iKKNiw/lAmygmHExk/o=" crossorigin="anonymous" />
+
+	<link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+	<div id="app">
+		<div id="start" class="container">
+			<form id="username-form">
+				<div class="form-group">
+					<input type="text" id="username" class="form-control form-control-lg" required placeholder="Who art thou'?">
+				</div>
+
+				<div class="form-group">
+					<select id="room" class="form-control" required placeholder="Loading...">
+						<option selected disabled>Loading rooms...</option>
+					</select>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Connect!</button>
+			</form><!-- /#username-form -->
+		</div><!-- /#start -->
+
+		<div id="chat-wrapper" class="hide">
+			<div id="chat">
+				<h2 id="chat-title">#general</h2>
+				<div id="message-wrapper">
+					<ul id="messages"></ul>
+				</div><!-- /#message-wrapper -->
+
+				<form id="message-form" class="form-inline">
+					<div class="form-group">
+						<input type="text" id="message" class="form-control" placeholder="Type something nice...">
+						<button type="submit" class="btn btn-outline-success">🗣</button>
+					</div>
+				</form><!-- /#message-form -->
+			</div><!-- /#chat -->
+
+			<div id="users">
+				<h2>Users online</h2>
+				<ul id="online-users"></ul>
+			</div><!-- /#users -->
+		</div><!-- /#chat-wrapper -->
+	</div><!-- /#app -->
+
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.26.0/moment.min.js" integrity="sha256-5oApc/wMda1ntIEK4qoWJ4YItnV4fBHMwywunj8gPqc=" crossorigin="anonymous"></script>
+	<script src="/assets/js/chat.js"></script>
+</body>
+</html>
