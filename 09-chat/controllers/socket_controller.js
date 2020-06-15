@@ -106,7 +106,7 @@ function handleGetRoomList(callback) {
  * Handle a new user connecting
  */
 function handleRegisterUser(roomName, username, callback) {
-	debug("User '%s' wants to connect to the room '%s'", username, roomName);
+	debug("User '%s' (%s) wants to connect to the room '%s'", username, this.id, roomName);
 
 	// join the requested room
 	this.join(roomName);

@@ -89,6 +89,10 @@
 	border-radius: 0.75rem;
 }
 
+#messages .message .time {
+	font-size: 60%;
+}
+
 #messages li {
 	align-self: flex-start;
 	margin: 0.1rem;
