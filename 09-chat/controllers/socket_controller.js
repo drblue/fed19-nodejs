@@ -89,6 +89,7 @@ function handleChatMsg(incomingMsg) {
 		time: Date.now(),
 		content: incomingMsg.content,
 		username: getUsernameById(this.id, incomingMsg.room),
+		timestamp: incomingMsg.timestamp,
 	}
 
 	// broadcast to all connected sockets EXCEPT ourselves

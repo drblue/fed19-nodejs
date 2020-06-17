@@ -85,6 +85,7 @@ messageForm.addEventListener('submit', e => {
 	const msg = {
 		content: messageEl.value,
 		room: roomName,
+		timestamp: Date.now()
 	}
 
 	socket.emit('chatmsg', msg);
@@ -115,6 +116,10 @@ socket.on('user-disconnected', (username) => {
 });
 
 socket.on('chatmsg', (msg) => {
+	const received_timestamp = Date.now();
+	console.log(`Message received, it was sent at ${msg.timestamp}, received by the server at ${msg.time} and received by us at ${received_timestamp}`);
+	const lag = received_timestamp - msg.timestamp;
+	console.log(`Total elapsed time between the message being sent and us receiving it: ${lag}`);
 	addMessageToChat(msg);
 });
 
