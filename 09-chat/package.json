@@ -7,6 +7,9 @@
     "dev": "cross-env DEBUG=09-simple-chat:* nodemon ./bin/server.js",
     "debug": "cross-env DEBUG=09-simple-chat:*,socket.io:client,socket.io:server nodemon --inspect ./bin/server.js"
   },
+  "engines": {
+    "node": "12.x"
+  },
   "dependencies": {
     "cross-env": "^7.0.2",
     "debug": "~2.6.9",
