@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "cross-env DEBUG=halp:*,socket.io:client,socket.io:server nodemon ./server.js",
+    "dev": "cross-env DEBUG=halp:* nodemon ./server.js",
     "debug": "cross-env DEBUG=halp:*,socket.io:client,socket.io:server nodemon --inspect ./server.js"
   },
   "keywords": [],
