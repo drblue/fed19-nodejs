@@ -20,7 +20,9 @@ class Login extends React.Component {
 
 		console.log("Emitting 'join-room' to Socket.IO-server with the following payload:", this.state);
 
-		socket.emit('join-room', this.state);
+		socket.emit('join-room', this.state, status => {
+			console.log("Got response to 'join-room' event from the server:", status);
+		});
 	}
 
 	render() {
