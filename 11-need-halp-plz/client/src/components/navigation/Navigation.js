@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navigation = props => {
 	return (
-		<nav className="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+		<nav className="navbar navbar-expand-md navbar-dark bg-dark">
 			<div className="container">
 				<a className="navbar-brand" href="#">Halp! 😨</a>
 					<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
