@@ -31,6 +31,16 @@ function getWaitingListForRoom(room) {
 }
 
 /**
+ * Handle get waiting list for a room
+ */
+function handleGetWaitingList(room, cb) {
+	cb({
+		room,
+		waitingList: getWaitingListForRoom(room),
+	});
+}
+
+/**
  * Handle a user disconnecting
  */
 function handleUserDisconnect() {
@@ -73,5 +83,6 @@ module.exports = function(socket) {
 
 	socket.on('disconnect', handleUserDisconnect);
 
+	socket.on('get-waiting-list', handleGetWaitingList);
 	socket.on('join-room', handleJoinRoom);
 }

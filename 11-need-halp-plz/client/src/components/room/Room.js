@@ -9,34 +9,55 @@ class Room extends React.Component {
 	}
 
 	componentDidMount() {
-		socket.emit('get-waiting-list', response => {
+		socket.emit('get-waiting-list', this.props.match.params.id, response => {
+			console.log("Got response for 'get-waiting-list' event from server:", response);
+
 			// update state
+			this.setState({
+				room: response.room,
+				waitingList: response.waitingList,
+			});
 		});
 
 		// Listen for updated waiting list, then update state
+		socket.on('updated-waiting-list', data => {
+			console.log("Got updated waiting list from server:", data);
+
+			// update state
+			this.setState({
+				room: data.room,
+				waitingList: data.waitingList,
+			});
+		})
 	}
 
 	componentWillUnmount() {
 		// Cancel listener for updated waiting list
+		socket.off('updated-waiting-list');
 	}
 
 	render() {
 		return (
 			<div className="component-Room">
-				<h1>This is a room</h1>
-				<p className="lead">Very roomy.</p>
+				{this.state.room ? (
+					<>
+						<h1>{this.state.room}</h1>
+						<p className="lead">Waiting list</p>
 
-				{/* Iterate over waiting list and output a list group */}
+						<ol className="list-group">
+							{
+								this.state.waitingList.map((user, index) => (
+									<li className="list-group-item" key={index}>{user.name}</li>
+								))
+							}
+						</ol>
+					</>
+				) : (
+					<h1>Loading...</h1>
+				)}
 			</div>
 		)
 	}
-}
-
-const Room = props => {
-
-
-
-
 }
 
 export default Room;
