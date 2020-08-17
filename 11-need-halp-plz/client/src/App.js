@@ -4,9 +4,19 @@ import Login from './components/login/Login';
 import Navigation from './components/navigation/Navigation';
 import NotFound from './components/notfound/NotFound';
 import Room from './components/room/Room';
+import socket from './modules/socket-client';
 import './App.scss';
 
 class App extends React.Component {
+
+	componentDidMount() {
+	}
+
+	componentWillUnmount() {
+		console.log("Will disconnect from socket-server now...");
+		socket.removeAllListeners();
+		socket.disconnect();
+	}
 
 	render() {
 		return (

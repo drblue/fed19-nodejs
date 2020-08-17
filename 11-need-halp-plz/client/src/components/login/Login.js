@@ -1,4 +1,5 @@
 import React from 'react';
+import socket from '../../modules/socket-client';
 
 class Login extends React.Component {
 
@@ -17,7 +18,9 @@ class Login extends React.Component {
 	handleOnSubmit = e => {
 		e.preventDefault();
 
-		console.log("Refusing to submit form!");
+		console.log("Emitting 'join-room' to Socket.IO-server with the following payload:", this.state);
+
+		socket.emit('join-room', this.state);
 	}
 
 	render() {
