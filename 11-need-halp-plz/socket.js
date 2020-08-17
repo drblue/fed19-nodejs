@@ -55,7 +55,6 @@ function handleJoinRoom({ name, location, schoolclass }, cb) {
 	// send back list of waiting users
 	cb({
 		room: schoolclass,
-		waitingList,
 	});
 
 	// send the updated waiting list to all other users in the room

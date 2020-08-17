@@ -22,6 +22,7 @@ class Login extends React.Component {
 
 		socket.emit('join-room', this.state, status => {
 			console.log("Got response to 'join-room' event from the server:", status);
+			this.props.history.push(`/room/${status.room}`);
 		});
 	}
 
