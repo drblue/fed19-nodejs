@@ -14,7 +14,7 @@ class App extends React.Component {
 				<BrowserRouter>
 					<Navigation />
 
-					<main role="main" className="container my-5">
+					<main role="main" className="container my-3">
 						<Switch>
 							<Route exact path='/' component={Login} />
 							<Route path='/room/:id' component={Room} />
