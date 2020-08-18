@@ -31,6 +31,13 @@ function getWaitingListForRoom(room) {
 }
 
 /**
+ * Set waiting list for room
+ */
+function setWaitingListForRoom(room, waitingList) {
+	return rooms[room].waitingList = waitingList;
+}
+
+/**
  * Handle get waiting list for a room
  */
 function handleGetWaitingList(room, cb) {
@@ -76,6 +83,23 @@ function handleJoinRoom({ name, location, schoolclass }, cb) {
 	// profit!
 }
 
+/**
+ * Handle an request to leave a room
+ */
+function handleLeaveRoom(room) {
+	debug(`User with socketId ${this.id} wants to leave ${room}`);
+
+	// remove user from the room's waiting list
+	const waitingList = getWaitingListForRoom(room).filter(user => user.socketId !== this.id);
+	setWaitingListForRoom(room, waitingList);
+
+	// send the updated waiting list to all other users in the room
+	this.broadcast.to(room).emit('updated-waiting-list', {
+		room,
+		waitingList,
+	});
+}
+
 module.exports = function(socket) {
 	// this = io
 	io = this;
@@ -85,4 +109,5 @@ module.exports = function(socket) {
 
 	socket.on('get-waiting-list', handleGetWaitingList);
 	socket.on('join-room', handleJoinRoom);
+	socket.on('leave-room', handleLeaveRoom);
 }

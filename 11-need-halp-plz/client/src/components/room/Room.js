@@ -32,6 +32,9 @@ class Room extends React.Component {
 	}
 
 	componentWillUnmount() {
+		// Leave room
+		socket.emit('leave-room', this.state.room);
+
 		// Cancel listener for updated waiting list
 		socket.off('updated-waiting-list');
 	}
@@ -41,13 +44,15 @@ class Room extends React.Component {
 			<div className="component-Room">
 				{this.state.room ? (
 					<>
-						<h1>{this.state.room}</h1>
-						<p className="lead">Waiting list</p>
+						<div className="text-center">
+							<h1>{this.state.room}</h1>
+							<p className="lead">Waiting list</p>
+						</div>
 
 						<ol className="list-group">
 							{
 								this.state.waitingList.map((user, index) => (
-									<li className="list-group-item" key={index}>{user.name}</li>
+									<li className="list-group-item" key={index}>{++index}. {user.name}</li>
 								))
 							}
 						</ol>
