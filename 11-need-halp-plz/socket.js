@@ -70,7 +70,7 @@ function handleUserDisconnect() {
 
 	const room = Object.keys(rooms).find(room =>
 		rooms[room].waitingList.find(user =>
-			user.socketId === 'abc123'
+			user.socketId === this.id
 		)
 	)
 
