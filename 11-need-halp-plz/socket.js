@@ -31,7 +31,7 @@ function removeUserFromRoom(room, socketId) {
 	const waitingList = getWaitingListForRoom(room).filter(user => user.socketId !== socketId);
 	setWaitingListForRoom(room, waitingList);
 
-	// send the updated waiting list to all other users in the room
+	// send the updated waiting list to all users in the room
 	io.to(room).emit('updated-waiting-list', {
 		room,
 		waitingList,
