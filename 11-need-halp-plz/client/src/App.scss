@@ -3,3 +3,11 @@
  */
 
 @import "~bootstrap/scss/bootstrap";
+
+.component-Room {
+	time {
+		font-size: 80%;
+		font-style: italic;
+		margin-left: 0.5em;
+	}
+}

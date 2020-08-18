@@ -1,4 +1,5 @@
 import React from 'react';
+import Moment from 'react-moment';
 import socket from '../../modules/socket-client';
 
 class Room extends React.Component {
@@ -52,7 +53,19 @@ class Room extends React.Component {
 						<ol className="list-group">
 							{
 								this.state.waitingList.map((user, index) => (
-									<li className="list-group-item" key={index}>{++index}. {user.name}</li>
+									<li className="list-group-item" title={user.location} key={index}>
+										{++index}. {user.name}
+										<Moment
+											date={user.waitingSince}
+											format="HH:mm"
+											unix
+										/>
+										<Moment
+											date={user.waitingSince}
+											fromNow
+											unix
+										/>
+									</li>
 								))
 							}
 						</ol>
