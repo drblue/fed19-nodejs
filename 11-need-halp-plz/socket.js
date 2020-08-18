@@ -24,6 +24,21 @@ function addUserToRoom(room, name, location, socketId) {
 }
 
 /**
+ * Remove user from a room
+ */
+function removeUserFromRoom(room, socketId) {
+	// remove user from the room's waiting list
+	const waitingList = getWaitingListForRoom(room).filter(user => user.socketId !== socketId);
+	setWaitingListForRoom(room, waitingList);
+
+	// send the updated waiting list to all other users in the room
+	io.to(room).emit('updated-waiting-list', {
+		room,
+		waitingList,
+	});
+}
+
+/**
  * Get waiting list for room
  */
 function getWaitingListForRoom(room) {
@@ -52,6 +67,17 @@ function handleGetWaitingList(room, cb) {
  */
 function handleUserDisconnect() {
 	debug(`Client ${this.id} disconnected :(`);
+
+	const room = Object.keys(rooms).find(room =>
+		rooms[room].waitingList.find(user =>
+			user.socketId === 'abc123'
+		)
+	)
+
+	if (room) {
+		debug(`Found socket still in room '${room}, removing...'`);
+		removeUserFromRoom(room, this.id);
+	}
 }
 
 /**
@@ -89,15 +115,11 @@ function handleJoinRoom({ name, location, schoolclass }, cb) {
 function handleLeaveRoom(room) {
 	debug(`User with socketId ${this.id} wants to leave ${room}`);
 
-	// remove user from the room's waiting list
-	const waitingList = getWaitingListForRoom(room).filter(user => user.socketId !== this.id);
-	setWaitingListForRoom(room, waitingList);
+	// remove user from waiting list
+	removeUserFromRoom(room, this.id);
 
-	// send the updated waiting list to all other users in the room
-	this.broadcast.to(room).emit('updated-waiting-list', {
-		room,
-		waitingList,
-	});
+	// actually leave the socket-room
+	this.leave(room);
 }
 
 module.exports = function(socket) {
