@@ -35,6 +35,7 @@
     ]
   },
   "devDependencies": {
+    "axios": "^0.19.2",
     "bootstrap": "^4.5.2",
     "node-sass": "^4.14.1",
     "socket.io-client": "^2.3.0"
