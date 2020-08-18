@@ -3,6 +3,7 @@
  */
 
 const debug = require('debug')('halp:room-controller');
+const models = require('../models');
 
 /**
  * Get all rooms
@@ -10,7 +11,24 @@ const debug = require('debug')('halp:room-controller');
  * GET /rooms
  */
 const index = async (req, res) => {
-	return res.status(405).send({ status: 'error', message: 'Not Implemented' });
+	try {
+		const rooms = await models.Room.find();
+
+		return res.send({
+			status: 'success',
+			data: {
+				rooms,
+			}
+		});
+
+	} catch (error) {
+		debug("Exception thrown in room_controller@index", error);
+
+		return res.status(500).send({
+			status: 'error',
+			message: error.message,
+		});
+	}
 }
 
 /**
