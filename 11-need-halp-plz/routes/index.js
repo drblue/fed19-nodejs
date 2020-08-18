@@ -15,6 +15,6 @@ router.get('/', (req, res) => {
 router.post('/login', authController.login);
 router.post('/register', authController.register);
 
-// router.use('/movies', require('./movies'));
+router.use('/rooms', require('./rooms'));
 
 module.exports = router;
