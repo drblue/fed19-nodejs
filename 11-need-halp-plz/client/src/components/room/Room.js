@@ -1,21 +1,28 @@
 import React from 'react';
 import Moment from 'react-moment';
+import config from '../../modules/config';
 import socket from '../../modules/socket-client';
 
 class Room extends React.Component {
 
 	state = {
-		room: null,
+		joined: false,
+		room: this.props.match.params.id,
 		waitingList: null,
 	}
 
 	componentDidMount() {
-		socket.emit('get-waiting-list', this.props.match.params.id, response => {
-			console.log("Got response for 'get-waiting-list' event from server:", response);
+		socket.emit('join-room', {
+			room: this.state.room,
+			access_token: config.getToken()
+		}, response => {
+			if (!response.joined) {
+				this.props.history.push('/');
+			}
 
-			// update state
+			// update state with waitingList
 			this.setState({
-				room: response.room,
+				joined: true,
 				waitingList: response.waitingList,
 			});
 		});
@@ -26,7 +33,6 @@ class Room extends React.Component {
 
 			// update state
 			this.setState({
-				room: data.room,
 				waitingList: data.waitingList,
 			});
 		})
@@ -43,7 +49,7 @@ class Room extends React.Component {
 	render() {
 		return (
 			<div className="component-Room">
-				{this.state.room ? (
+				{this.state.joined ? (
 					<>
 						<div className="text-center">
 							<h1>{this.state.room}</h1>

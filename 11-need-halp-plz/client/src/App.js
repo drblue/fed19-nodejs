@@ -27,11 +27,9 @@ class App extends React.Component {
 
 					<main role="main" className="container my-3">
 						<Switch>
-							<Route exact path='/' render={(props) =>
-								<Login {...props} />
-							} />
+							<Route exact path='/' component={Login} />
 
-							<Route path='/room' component={RoomList} />
+							<Route exact path='/room' component={RoomList} />
 							<Route path='/room/:id' component={Room} />
 
 							<Route component={NotFound} />

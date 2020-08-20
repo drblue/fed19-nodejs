@@ -3,6 +3,7 @@
  */
 
 const debug = require('debug')('halp:socket');
+const jwt = require('jsonwebtoken');
 const rooms = {};
 
 /**
@@ -83,26 +84,36 @@ function handleUserDisconnect() {
 /**
  * Handle an incoming request to join a room
  */
-function handleJoinRoom({ name, location, schoolclass }, cb) {
-	debug(`${name} wants to join #${schoolclass}!`);
+function handleJoinRoom(data, cb) {
+	let payload;
+	try {
+		payload = jwt.verify(data.access_token, process.env.ACCESS_TOKEN_SECRET);
+	} catch (error) {
+		cb({
+			joined: false,
+			invalidToken: true,
+		});
+	}
+
+	debug(`${payload.data.name} wants to join #${data.room}!`);
 
 	// join room
-	this.join(schoolclass);
+	this.join(data.room);
 
 	// add user to room's list of waiting users
-	addUserToRoom(schoolclass, name, location, this.id);
+	addUserToRoom(data.room, payload.data.name, '', this.id);
 
 	// get list of waiting users
-	const waitingList = getWaitingListForRoom(schoolclass);
+	const waitingList = getWaitingListForRoom(data.room);
 
 	// send back list of waiting users
 	cb({
-		room: schoolclass,
+		joined: true,
+		waitingList,
 	});
 
 	// send the updated waiting list to all other users in the room
-	this.broadcast.to(schoolclass).emit('updated-waiting-list', {
-		room: schoolclass,
+	this.broadcast.to(data.room).emit('updated-waiting-list', {
 		waitingList,
 	});
 
