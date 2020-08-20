@@ -22,6 +22,7 @@ db.once('open', function() {
 // Set up the models we want to use in our app
 const models = {};
 models.Room = require('./room');
+models.User = require('./user');
 
 // Export all the things
 module.exports = {
