@@ -11,9 +11,14 @@ class RoomList extends React.Component {
 	}
 
 	componentDidMount() {
+		const accessToken = config.getToken();
+		if (!accessToken) {
+			return this.props.history.push('/');
+		}
+
 		axios.get(config.API_HOST + '/rooms', {
 			headers: {
-				'Authorization': 'Bearer ' + config.getToken()
+				'Authorization': 'Bearer ' + accessToken
 			}
 		})
 		.then(res => {
