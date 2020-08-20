@@ -1,12 +1,11 @@
 import React from 'react';
-import socket from '../../modules/socket-client';
+import axios from 'axios';
 
 class Login extends React.Component {
 
 	state = {
-		name: '',
-		location: '',
-		schoolclass: 'FED19',
+		email: '',
+		password: '',
 	}
 
 	handleOnChange = e => {
@@ -18,11 +17,16 @@ class Login extends React.Component {
 	handleOnSubmit = e => {
 		e.preventDefault();
 
-		console.log("Emitting 'join-room' to Socket.IO-server with the following payload:", this.state);
+		console.log("Authenticating with:", this.state);
+		axios.post('http://localhost:3001/login', this.state)
+		.then(res => {
+			console.log("Got reponse to login:", res.data);
+			const access_token = res.data.data.access_token;
 
-		socket.emit('join-room', this.state, status => {
-			console.log("Got response to 'join-room' event from the server:", status);
-			this.props.history.push(`/room/${status.room}`);
+			this.props.onLogin(access_token);
+		})
+		.catch(err => {
+			console.error(err);
 		});
 	}
 
@@ -36,27 +40,17 @@ class Login extends React.Component {
 
 				<form id="login-form" onSubmit={this.handleOnSubmit}>
 					<div className="form-group">
-						<label htmlFor="name">Name</label>
-						<input type="text" id="name" className="form-control" onChange={this.handleOnChange} placeholder="Enter your name" />
+						<label htmlFor="email">Email</label>
+						<input type="email" id="email" className="form-control" onChange={this.handleOnChange} placeholder="Enter your email" />
 					</div>
 
 					<div className="form-group">
-						<label htmlFor="location">Location</label>
-						<input type="text" id="location" className="form-control" onChange={this.handleOnChange} placeholder="Please tell us where we can find you" />
-					</div>
-
-					<div className="form-group">
-						<label htmlFor="schoolclass">Class</label>
-						<select id="schoolclass" className="form-control" onChange={this.handleOnChange}>
-							<option value="FED19">FED19</option>
-							<option value="FED20">FED20</option>
-							<option value="WCM19">WCM19</option>
-							<option value="WCM20">WCM20</option>
-						</select>
+						<label htmlFor="password">Password</label>
+						<input type="password" id="password" className="form-control" onChange={this.handleOnChange} placeholder="Please tell us your password 😉" />
 					</div>
 
 					<div className="d-flex justify-content-end">
-						<button type="submit" className="btn btn-success">Halp plz!</button>
+						<button type="submit" className="btn btn-success">Login</button>
 					</div>
 				</form>
 			</div>

@@ -10,6 +10,10 @@ import './App.scss';
 
 class App extends React.Component {
 
+	state = {
+		token: false,
+	}
+
 	componentDidMount() {
 	}
 
@@ -17,6 +21,14 @@ class App extends React.Component {
 		console.log("Will disconnect from socket-server now...");
 		socket.removeAllListeners();
 		socket.disconnect();
+	}
+
+	handleOnLogin = token => {
+		console.log("Setting token in App state", token);
+
+		this.setState({
+			token,
+		})
 	}
 
 	render() {
@@ -27,7 +39,9 @@ class App extends React.Component {
 
 					<main role="main" className="container my-3">
 						<Switch>
-							<Route exact path='/' component={Login} />
+							<Route exact path='/' render={() =>
+								<Login onLogin={this.handleOnLogin} />
+							 } />
 
 							<Route path='/room' component={RoomList} />
 							<Route path='/room/:id' component={Room} />
