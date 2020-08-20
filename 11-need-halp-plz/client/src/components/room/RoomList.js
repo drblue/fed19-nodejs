@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import config from '../../modules/config';
 
 class RoomList extends React.Component {
 
@@ -10,7 +11,11 @@ class RoomList extends React.Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3001/rooms')
+		axios.get(config.API_HOST + '/rooms', {
+			headers: {
+				'Authorization': 'Bearer ' + config.getToken()
+			}
+		})
 		.then(res => {
 			console.log("Got response!", res);
 			if (res.data.status === "success") {
