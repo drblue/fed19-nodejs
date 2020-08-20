@@ -26,6 +26,10 @@ class RoomList extends React.Component {
 				});
 			}
 		})
+		.catch(err => {
+			console.error(err);
+			this.props.history.push('/');
+		});
 	}
 
 	componentWillUnmount() {
